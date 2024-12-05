@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파일 목록 테이블</title>
+    <link rel="stylesheet" href="explorer.css">
+</head>
+<body>
+
+<div class="button-container">
+    <button>업로드</button>
+    <button>다운로드</button>
+    <button onclick="confirmDelete()">삭제</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>&nbsp</th>
+            <th>이름</th>
+            <th>수정한 날짜</th>
+            <th>크기</th>
+            <th>&nbsp</th>
+        </tr>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td class="file-name">File1.txt</td>
+            <td>2024-01-12</td>
+            <td>5kB</td>
+            <td>
+                <button>다운로드</button>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td class="file-name">Image.jpg</td>
+            <td>2024-12-11</td>
+            <td>12MB</td>
+            <td>
+                <button>다운로드</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script src="explorer.js"></script>
+
+</body>
+</html>
