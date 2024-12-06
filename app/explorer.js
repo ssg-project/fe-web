@@ -1,58 +1,37 @@
-function confirmDelete() {
-    if (confirm("정말로 삭제하시겠습니까?")) {
-        alert("삭제되었습니다.");
-        // 실제 삭제 로직 추가
-    } else {
-        alert("취소되었습니다.");
-    }
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadButton = document.getElementById('upload-button');
+    const fileInput = document.getElementById('file-upload');
+    const uploadForm = document.getElementById('upload-form');
 
-function editRow(button) {
-    const row = button.parentElement.parentElement; 
-    const nameCell = row.querySelector('.file-name');
-    const originalName = nameCell.textContent;
+    // 업로드 버튼 클릭 시 파일 선택 창 열기
+    uploadButton.addEventListener('click', function() {
+        fileInput.click();
+    });
 
-    nameCell.innerHTML = `<input type='text' value='${originalName}'>`;
+    // 파일 선택 후 처리
+    fileInput.addEventListener('change', function(event) {
+        const files = event.target.files;
+        
+        if (files.length > 0) {
+            const formData = new FormData(uploadForm);
 
-    Array.from(button.parentElement.children).forEach(btn => btn.style.display = 'none');
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
 
-    const applyButton = document.createElement('button');
-    applyButton.textContent = '적용';
-    applyButton.className = 'action-button';
-    applyButton.onclick = function() { confirmEdit(applyButton); };
-
-    const cancelButton = document.createElement('button');
-    cancelButton.textContent = '취소';
-    cancelButton.className = 'action-button';
-    cancelButton.onclick = function() { cancelEdit(applyButton, originalName); };
-
-   button.parentElement.appendChild(applyButton);
-   button.parentElement.appendChild(cancelButton);
-}
-
-function confirmEdit(button) {
-   const row = button.parentElement.parentElement; 
-   const nameCell = row.querySelector('.file-name');
-   const inputField = nameCell.querySelector('input');
-   
-   nameCell.textContent = inputField.value;
-
-   resetButtons(button);
-}
-
-function cancelEdit(button, originalName) {
-   const row = button.parentElement.parentElement; 
-   const nameCell = row.querySelector('.file-name');
-   
-   nameCell.textContent = originalName;
-
-   resetButtons(button);
-}
-
-function resetButtons(button) {
-   const actionCell = button.parentElement;
-
-   actionCell.innerHTML = `
-       <button class='action-button' onclick='editRow(this)'>수정</button>
-       <button class='action-button' onclick='confirmDelete()'>삭제</button>`;
-}
+            fetch('/upload-endpoint', { // 서버의 업로드 엔드포인트 URL로 변경 필요
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('성공:', data);
+                // 업로드 성공 시 추가 작업
+            })
+            .catch((error) => {
+                console.error('오류:', error);
+                // 업로드 실패 시 추가 작업
+            });
+        }
+    });
+});
