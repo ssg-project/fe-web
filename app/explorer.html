@@ -8,11 +8,16 @@
 </head>
 <body>
 
-<div class="button-container">
-    <button>업로드</button>
-    <button>다운로드</button>
-    <button onclick="confirmDelete()">삭제</button>
-</div>
+
+
+<form id="upload-form" enctype="multipart/form-data" method="post">
+    <div class="button-container">
+        <input type="file" id="file-upload" name="files" multiple style="display: none;" />
+        <button type="button" id="upload-button">업로드</button>
+        <button onclick="confirmDelete()">삭제</button>
+        <button>로그아웃</button>
+    </div>
+</form>
 
 <table>
     <thead>
