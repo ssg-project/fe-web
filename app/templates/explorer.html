@@ -8,13 +8,11 @@
 </head>
 <body>
 
-
-
 <form id="upload-form" enctype="multipart/form-data" method="post">
     <div class="button-container">
         <input type="file" id="file-upload" name="files" multiple style="display: none;" />
-        <button type="button" id="upload-button">업로드</button>
-        <button onclick="confirmDelete()">삭제</button>
+        <button type="button">업로드</button>
+        <button>삭제</button>
         <button>로그아웃</button>
     </div>
 </form>
@@ -27,7 +25,6 @@
             <th>수정한 날짜</th>
             <th>크기</th>
             <th>&nbsp</th>
-        </tr>
         </tr>
     </thead>
     <tbody>
@@ -51,8 +48,6 @@
         </tr>
     </tbody>
 </table>
-
-<script src="explorer.js"></script>
 
 </body>
 </html>
