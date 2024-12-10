@@ -30,7 +30,11 @@ def login():
             response = requests.post(api_url, json=data)
 
             if response.status_code == 200:  # 로그인 성공
-                session['user'] = email  # 세션에 사용자 정보 저장
+                session['user_email'] = response.json()['user_email']
+                session['user_id'] = str(response.json()['user_id'])  # 세션에 사용자 정보 저장
+
+                print('session', session['user_email'])
+                
                 return redirect(url_for('explorer.explorer'))  # Explorer 페이지로 리다이렉트
             elif response.status_code == 401:  # 인증 실패
                 error_message = response.json().get('detail', '로그인에 실패했습니다.')
