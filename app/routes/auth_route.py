@@ -11,7 +11,7 @@ FASTAPI_BASE_URL = 'http://127.0.0.1:8000/api/v1/auth'
 # 로그인 라우트 정의
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'user' in session:  # 세션이 있으면 Explorer로 이동
+    if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
         return redirect(url_for('explorer.explorer'))
 
     if request.method == 'POST':
@@ -52,7 +52,7 @@ def login():
 # 회원가입 라우트 정의
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if 'user' in session:  # 세션이 있으면 Explorer로 이동
+    if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
         return redirect(url_for('explorer.explorer'))
 
     if request.method == 'POST':
@@ -92,7 +92,7 @@ def signup():
 # 로그아웃 라우트 정의
 @auth_bp.route('/logout', methods=['GET'])
 def logout():
-    if 'user' not in session:  # 세션이 없으면 로그인 페이지로 리다이렉트
+    if 'user_id' not in session:  # 세션이 없으면 로그인 페이지로 리다이렉트
         flash("이미 로그아웃된 상태입니다.", "info")
         return redirect(url_for('auth.login'))
 
@@ -125,7 +125,7 @@ def withdrawal():
 # 세션 상태 확인 및 리다이렉트 라우트 정의
 @auth_bp.route('/')
 def check_session():
-    if 'user' in session:  # 세션이 있으면 Explorer로 이동
+    if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
         return redirect(url_for('explorer.explorer'))
     else:  # 세션이 없으면 Login으로 이동
         return redirect(url_for('auth.login'))
