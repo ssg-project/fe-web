@@ -1,11 +1,30 @@
-from flask import Blueprint, render_template, session, redirect, url_for
+from flask import Blueprint, request, redirect, url_for, render_template
+import requests
 
-# Explorer 블루프린트 생성
+# Flask 블루프린트 정의
 explorer_bp = Blueprint('explorer', __name__, url_prefix='/explorer')
 
-# Explorer 페이지 라우트 정의
 @explorer_bp.route('/')
 def explorer():
-    if 'user' in session:  # 세션에 사용자 정보가 있는 경우만 접근 허용
-        return render_template('explorer.html', username=session['user'])
-    return redirect(url_for('auth.login'))  # 세션 없으면 로그인 페이지로 리다이렉트
+    # Explorer 페이지 렌더링 (템플릿 파일 사용 가능)
+    return render_template('explorer.html')  # 또는 "Explorer 페이지입니다."
+
+@explorer_bp.route('/upload', methods=['POST'])
+def upload_file():
+    # HTML 폼에서 전달된 파일 가져오기
+    files = request.files.getlist('files')  # 다중 파일 처리
+    if not files:
+        return "파일이 선택되지 않았습니다.", 400
+
+    try:
+        # FastAPI 서버로 파일 전송
+        response = requests.post(
+            'http://localhost:8000/api/v1/file/upload',  # FastAPI 서버의 업로드 엔드포인트
+            files=[('files', (file.filename, file.stream, file.mimetype)) for file in files]
+        )
+        if response.status_code == 200:
+            return redirect(url_for('explorer.explorer'))  # 성공 시 explorer 페이지로 리다이렉트
+        else:
+            return f"업로드 실패: {response.text}", response.status_code
+    except Exception as e:
+        return f"서버 오류: {str(e)}", 500

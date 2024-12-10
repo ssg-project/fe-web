@@ -1,3 +1,4 @@
+<!--#storage-web/app/templates/explorer.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,46 +9,31 @@
 </head>
 <body>
 
-<form id="upload-form" enctype="multipart/form-data" method="post">
-    <div class="button-container">
-        <input type="file" id="file-upload" name="files" multiple style="display: none;" />
-        <button type="button">업로드</button>
-        <button>삭제</button>
-        <button>로그아웃</button>
-    </div>
-</form>
-
-<table>
-    <thead>
-        <tr>
-            <th>&nbsp</th>
-            <th>이름</th>
-            <th>수정한 날짜</th>
-            <th>크기</th>
-            <th>&nbsp</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td class="file-name">File1.txt</td>
-            <td>2024-01-12</td>
-            <td>5kB</td>
-            <td>
-                <button>다운로드</button>
-            </td>
-        </tr>
-        <tr>
-            <td><input type="checkbox"></td>
-            <td class="file-name">Image.jpg</td>
-            <td>2024-12-11</td>
-            <td>12MB</td>
-            <td>
-                <button>다운로드</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <form id="upload-form" enctype="multipart/form-data" method="post" action="/explorer/upload">
+        <div class="button-container">
+            <input type="file" id="file-upload" name="files" multiple style="display: none;" />
+            <button type="button" id="upload-button">업로드</button>
+            <button type="button">삭제</button>
+            <button type="button">로그아웃</button>
+        </div>
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>&nbsp</th>
+                <th>이름</th>
+                <th>수정한 날짜</th>
+                <th>크기</th>
+                <th>&nbsp</th>
+            </tr>
+        </thead>
+        <tbody id="file-list">
+            <!-- 파일 목록은 서버에서 동적으로 렌더링 -->
+        </tbody>
+    </table>
+    
+    <script src="../static/js/explorer.js"></script>
 
 </body>
 </html>

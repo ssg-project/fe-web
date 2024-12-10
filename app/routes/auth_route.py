@@ -1,3 +1,4 @@
+#storage-web/app/routes/auth_route.py
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 import requests
 

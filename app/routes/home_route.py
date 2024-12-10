@@ -1,3 +1,4 @@
+#storage-web/app/routes/home_route.py
 from flask import Blueprint, render_template, session, redirect, url_for
 
 # 홈 페이지 블루프린트 생성

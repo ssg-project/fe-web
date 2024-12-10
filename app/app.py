@@ -1,3 +1,4 @@
+#storage-web/app/app.py
 from flask import Flask, session, redirect, url_for, request
 from .routes.auth_route import auth_bp
 from .routes.home_route import home_bp
