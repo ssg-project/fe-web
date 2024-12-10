@@ -34,7 +34,7 @@ def upload_file():
     except Exception as e:
         return f"서버 오류: {str(e)}", 500
 
-@explorer_bp.route('/list', methods=['GET'])
+@explorer_bp.route('/', methods=['GET'])
 def get_file_list():
     user_email = session.get('user_email')
     user_id = session.get('user_id')
