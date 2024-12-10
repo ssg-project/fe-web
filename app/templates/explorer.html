@@ -40,7 +40,7 @@
                     <td>{{ file.file_key }}</td>
                     <td>{{ file.created_at }}</td>
                     <td>
-                        <a href="/explorer/download/{{ file.id }}">다운로드</a>
+                        <a href="{{ url_for('explorer.download_file', file_key=file.file_key) }}">다운로드</a>
                     </td>
                 </tr>
                 {% endfor %}

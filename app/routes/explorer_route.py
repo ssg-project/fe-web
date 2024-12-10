@@ -66,3 +66,33 @@ def delete_file():
             return f"삭제 실패: {response.text}", response.status_code
     except Exception as e:
         return f"서버 오류: {str(e)}", 500
+
+
+@explorer_bp.route('/download', methods=['GET'])
+def download_file():
+    # 파일 키를 쿼리 파라미터로 받음
+    file_key = request.args.get('file_key')
+    user_email = session.get('user_email')
+    user_id = session.get('user_id')
+
+    if not file_key:
+        return "파일 키가 제공되지 않았습니다.", 400
+
+    try:
+        # FastAPI의 다운로드 링크 생성 API 호출
+        response = requests.get(
+            'http://localhost:8000/api/v1/file/download',
+            params={'file_key': file_key},  # 파일 키를 쿼리 파라미터로 전달
+            cookies={'user_id': user_id, 'user_email': user_email},
+        )
+
+        if response.status_code == 200:
+            presigned_url = response.json().get("url")
+            if presigned_url:
+                return redirect(presigned_url)  # Presigned URL로 리다이렉트
+            else:
+                return "다운로드 링크 생성 실패", 400
+        else:
+            return f"FastAPI 오류: {response.text}", response.status_code
+    except Exception as e:
+        return f"서버 오류: {str(e)}", 500
