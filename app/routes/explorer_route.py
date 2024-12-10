@@ -1,5 +1,8 @@
 from flask import Blueprint, request, redirect, url_for, render_template, session
 import requests
+import os
+
+base_url = os.getenv('SERVER_BASE_URL')
 
 # Flask 블루프린트 정의
 explorer_bp = Blueprint('explorer', __name__, url_prefix='/explorer')
@@ -13,7 +16,7 @@ def explorer():
     user_id = session.get('user_id')
 
     response = requests.get(
-        'http://localhost:8000/api/v1/file/list',
+        f'{base_url}/api/v1/file/list',
         cookies={'user_id': user_id, 'user_email': user_email},  # 쿠키에 user_id와 user_email 포함
     ) 
 
@@ -40,7 +43,7 @@ def upload_file():
     try:
         # FastAPI 서버로 파일 전송
         response = requests.post(
-            'http://localhost:8000/api/v1/file/upload',  # FastAPI 서버의 업로드 엔드포인트
+            f'{base_url}/api/v1/file/upload',  # FastAPI 서버의 업로드 엔드포인트
             files=[('files', (file.filename, file.stream, file.mimetype)) for file in files],
             cookies={'user_id': user_id, 'user_email': user_email},  # 쿠키에 user_id와 user_email 포함
         )
@@ -64,7 +67,7 @@ def delete_file():
     try:
         print("file_ids", file_ids)
         response = requests.post(
-            'http://localhost:8000/api/v1/file/delete',  # FastAPI의 파일 삭제 엔드포인트
+            f'{base_url}/api/v1/file/delete',  # FastAPI의 파일 삭제 엔드포인트
             json={"file_ids": file_ids},  # JSON 데이터로 파일 ID 목록 전송
             cookies={'user_id': user_id, 'user_email': user_email},
         )
@@ -93,7 +96,7 @@ def download_file():
     try:
         # FastAPI의 다운로드 링크 생성 API 호출
         response = requests.get(
-            'http://localhost:8000/api/v1/file/download',
+            f'{base_url}/api/v1/file/download',
             params={'file_key': file_key},  # 파일 키를 쿼리 파라미터로 전달
             cookies={'user_id': user_id, 'user_email': user_email},
         )

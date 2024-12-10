@@ -1,12 +1,14 @@
 #storage-web/app/routes/auth_route.py
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 import requests
+import os
 
 # 인증 블루프린트 생성
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 # FastAPI 서버 URL
-FASTAPI_BASE_URL = 'http://127.0.0.1:8000/api/v1/auth'
+# FASTAPI_BASE_URL = 'http://127.0.0.1:8000/api/v1/auth'
+base_url = os.getenv('SERVER_BASE_URL')
 
 # 로그인 라우트 정의
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -19,7 +21,7 @@ def login():
         password = request.form.get('password')
 
         # API 요청 데이터 준비
-        api_url = f'{FASTAPI_BASE_URL}/login'
+        api_url = f'{base_url}/api/v1/auth/login'
         data = {
             "email": email,
             "password": password
@@ -65,7 +67,7 @@ def signup():
             return render_template('signup.html', error='비밀번호가 일치하지 않습니다.')
 
         # API 요청 데이터 준비
-        api_url = f'{FASTAPI_BASE_URL}/join'
+        api_url = f'{base_url}/api/v1/auth/join'
         headers = {'Content-Type': 'application/json'}
         data = {
             "email": email,
@@ -96,7 +98,7 @@ def logout():
         flash("이미 로그아웃된 상태입니다.", "info")
         return redirect(url_for('auth.login'))
 
-    api_url = f'{FASTAPI_BASE_URL}/logout'
+    api_url = f'{base_url}/api/v1/auth/logout'
 
     try:
         # FastAPI 서버에 로그아웃 요청 전송 (쿠키 포함)
@@ -119,7 +121,8 @@ def logout():
 # 회원 탈퇴 라우트 정의
 @auth_bp.route('/withdrawal', methods=['GET'])
 def withdrawal():
-    api_url = f'{FASTAPI_BASE_URL}/withdrawal'
+    api_url = f'{base_url}/api/v1/auth/withdrawal'
+
     requests.post(api_url,)
 
 # 세션 상태 확인 및 리다이렉트 라우트 정의
