@@ -13,35 +13,41 @@
         <div class="button-container">
             <input type="file" id="file-upload" name="files" multiple style="display: none;" />
             <button type="button" id="upload-button">업로드</button>
-            <button type="button">삭제</button>
-            <button type="button">로그아웃</button>
         </div>
     </form>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>&nbsp</th>
-                <th>이름</th>
-                <th>수정한 날짜</th>
-                <th>&nbsp</th>
-            </tr>
-        </thead>
-        <tbody id="file-list">
-            {% for file in files %}
-            <tr>
 
-                <td><input type="checkbox" name="file_select" value="{{ file.id }}"></td>
-                <td>{{ file.file_key }}</td>
-                <td>{{ file.created_at }}</td>
-                <td>
-                    <button type="button" onclick="deleteFile('{{ file.id }}')">다운로드</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>        
-    </table>
-    
+    <form id="delete-form" method="post" action="/explorer/delete">
+        <div class="button-container">
+            <button type="submit">삭제</button>
+            <button type="button" onclick="window.location.href='/logout'">로그아웃</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>이름</th>
+                    <th>수정한 날짜</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody id="file-list">
+                {% for file in files %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="file_ids" value="{{ file.id }}">
+                    </td>
+                    <td>{{ file.file_key }}</td>
+                    <td>{{ file.created_at }}</td>
+                    <td>
+                        <a href="/explorer/download/{{ file.id }}">다운로드</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>        
+        </table>
+    </form>
+
     <script src="../static/js/explorer.js"></script>
 
 </body>

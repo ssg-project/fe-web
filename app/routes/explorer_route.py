@@ -44,3 +44,25 @@ def upload_file():
             return f"업로드 실패: {response.text}", response.status_code
     except Exception as e:
         return f"서버 오류: {str(e)}", 500
+
+@explorer_bp.route('/delete', methods=['POST'])
+def delete_file():
+    file_ids = request.form.getlist('file_ids')
+
+    user_email = session.get('user_email')
+    user_id = session.get('user_id')
+
+    try:
+        print("file_ids", file_ids)
+        response = requests.post(
+            'http://localhost:8000/api/v1/file/delete',  # FastAPI의 파일 삭제 엔드포인트
+            json={"file_ids": file_ids},  # JSON 데이터로 파일 ID 목록 전송
+            cookies={'user_id': user_id, 'user_email': user_email},
+        )
+
+        if response.status_code == 200:
+            return redirect(url_for('explorer.explorer'))
+        else:
+            return f"삭제 실패: {response.text}", response.status_code
+    except Exception as e:
+        return f"서버 오류: {str(e)}", 500
