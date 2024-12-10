@@ -6,6 +6,9 @@ explorer_bp = Blueprint('explorer', __name__, url_prefix='/explorer')
 
 @explorer_bp.route('/', methods=['GET'])
 def explorer():
+    # 로그인 여부 확인
+    if 'user' not in session:  # 세션에 'user' 키가 없으면 로그인 필요
+        return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
     user_email = session.get('user_email')
     user_id = session.get('user_id')
 
@@ -22,6 +25,9 @@ def explorer():
         
 @explorer_bp.route('/upload', methods=['POST'])
 def upload_file():
+    # 로그인 여부 확인
+    if 'user' not in session:  # 세션에 'user' 키가 없으면 로그인 필요
+        return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
     # HTML 폼에서 전달된 파일 가져오기
     files = request.files.getlist('files')  # 다중 파일 처리
 
@@ -47,6 +53,9 @@ def upload_file():
 
 @explorer_bp.route('/delete', methods=['POST'])
 def delete_file():
+    # 로그인 여부 확인
+    if 'user' not in session:  # 세션에 'user' 키가 없으면 로그인 필요
+        return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
     file_ids = request.form.getlist('file_ids')
 
     user_email = session.get('user_email')
@@ -70,6 +79,9 @@ def delete_file():
 
 @explorer_bp.route('/download', methods=['GET'])
 def download_file():
+    # 로그인 여부 확인
+    if 'user' not in session:  # 세션에 'user' 키가 없으면 로그인 필요
+        return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
     # 파일 키를 쿼리 파라미터로 받음
     file_key = request.args.get('file_key')
     user_email = session.get('user_email')
