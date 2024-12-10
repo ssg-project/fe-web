@@ -33,3 +33,20 @@ def upload_file():
             return f"업로드 실패: {response.text}", response.status_code
     except Exception as e:
         return f"서버 오류: {str(e)}", 500
+
+@explorer_bp.route('/list', methods=['GET'])
+def get_file_list():
+    user_email = session.get('user_email')
+    user_id = session.get('user_id')
+
+    response = requests.get(
+        'http://localhost:8000/api/v1/file/list',
+        cookies={'user_id': user_id, 'user_email': user_email},  # 쿠키에 user_id와 user_email 포함
+    ) 
+
+    file_list = []
+    if response.status_code == 200:
+        file_list = response.json()['data']
+    
+    return render_template('explorer.html', files=file_list)
+        

@@ -24,13 +24,22 @@
                 <th>&nbsp</th>
                 <th>이름</th>
                 <th>수정한 날짜</th>
-                <th>크기</th>
                 <th>&nbsp</th>
             </tr>
         </thead>
         <tbody id="file-list">
-            <!-- 파일 목록은 서버에서 동적으로 렌더링 -->
-        </tbody>
+            {% for file in files %}
+            <tr>
+
+                <td><input type="checkbox" name="file_select" value="{{ file.id }}"></td>
+                <td>{{ file.file_key }}</td>
+                <td>{{ file.created_at }}</td>
+                <td>
+                    <button type="button" onclick="deleteFile('{{ file.id }}')">다운로드</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>        
     </table>
     
     <script src="../static/js/explorer.js"></script>
