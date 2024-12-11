@@ -1,5 +1,5 @@
 #storage-web/app/routes/auth_route.py
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, make_response
 import requests
 import os
 
@@ -32,12 +32,23 @@ def login():
             response = requests.post(api_url, json=data)
 
             if response.status_code == 200:  # 로그인 성공
-                session['user_email'] = response.json()['user_email']
-                session['user_id'] = str(response.json()['user_id'])  # 세션에 사용자 정보 저장
+                # session['user_email'] = response.json()['user_email']
+                # session['user_id'] = str(response.json()['user_id'])  # 세션에 사용자 정보 저장
 
-                print('session', session['user_email'])
+                # print('session', session['user_email'])
+                print("xx")
+
+                user_email = response.json()['user_email']
+                user_id = str(response.json()['user_id'])
+
+                resp = make_response(redirect(url_for('explorer.explorer')))
+                resp.set_cookie('user_email', user_email, httponly=True, secure=True)
+                resp.set_cookie('user_id', user_id, httponly=True, secure=True)
                 
-                return redirect(url_for('explorer.explorer'))  # Explorer 페이지로 리다이렉트
+                # return redirect(url_for('explorer.explorer'))
+                return resp
+
+                # return redirect(url_for('explorer.explorer'))  # Explorer 페이지로 리다이렉트
             elif response.status_code == 401:  # 인증 실패
                 error_message = response.json().get('detail', '로그인에 실패했습니다.')
                 return render_template('login.html', error=error_message)

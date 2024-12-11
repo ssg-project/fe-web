@@ -10,8 +10,15 @@ explorer_bp = Blueprint('explorer', __name__, url_prefix='/explorer')
 @explorer_bp.route('/', methods=['GET'])
 def explorer():
     # 로그인 여부 확인
-    if 'user_id' not in session:  # 세션에 'user' 키가 없으면 로그인 필요
-        return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
+
+    user_id = request.cookies.get('user_id')  # 쿠키에서 user_id 가져오기
+    user_email = request.cookies.get('user_email')  # 쿠키에서 user_email 가져오기
+
+    if not user_id or not user_email:  # 쿠키가 없으면 로그인 필요
+        return redirect(url_for('auth.login'))
+
+    # if 'user_id' not in session:  # 세션에 'user' 키가 없으면 로그인 필요
+    #     return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
     user_email = session.get('user_email')
     user_id = session.get('user_id')
 
