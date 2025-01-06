@@ -13,8 +13,8 @@ base_url = os.getenv('SERVER_BASE_URL')
 # 로그인 라우트 정의
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
-        return redirect(url_for('explorer.explorer'))
+    # if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
+    #     return redirect(url_for('explorer.explorer'))
 
     if request.method == 'POST':
         email = request.form.get('email')  # email 필드 사용
@@ -32,23 +32,18 @@ def login():
             response = requests.post(api_url, json=data)
 
             if response.status_code == 200:  # 로그인 성공
-                # session['user_email'] = response.json()['user_email']
-                # session['user_id'] = str(response.json()['user_id'])  # 세션에 사용자 정보 저장
-
-                # print('session', session['user_email'])
-                print("xx")
-
                 user_email = response.json()['user_email']
                 user_id = str(response.json()['user_id'])
 
-                resp = make_response(redirect(url_for('explorer.explorer')))
-                resp.set_cookie('user_email', user_email, httponly=True, secure=True)
-                resp.set_cookie('user_id', user_id, httponly=True, secure=True)
+                # resp = make_response(redirect(url_for('explorer.explorer')))
+                # resp.set_cookie('user_email', user_email, httponly=True, secure=True)
+                # resp.set_cookie('user_id', user_id, httponly=True, secure=True)
                 
                 # return redirect(url_for('explorer.explorer'))
-                return resp
+                # return resp
 
                 # return redirect(url_for('explorer.explorer'))  # Explorer 페이지로 리다이렉트
+                return ''
             elif response.status_code == 401:  # 인증 실패
                 error_message = response.json().get('detail', '로그인에 실패했습니다.')
                 return render_template('login.html', error=error_message)
@@ -65,8 +60,8 @@ def login():
 # 회원가입 라우트 정의
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
-        return redirect(url_for('explorer.explorer'))
+    # if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
+    #     return redirect(url_for('explorer.explorer'))
 
     if request.method == 'POST':
         email = request.form.get('email')
@@ -121,13 +116,13 @@ def logout():
             return redirect(url_for('auth.login'))
         else:
             error_message = response.json().get('detail', f"서버 로그아웃 실패 (상태 코드: {response.status_code})")
-            flash(error_message, "error")
-            return redirect(url_for('explorer.explorer'))
+            # flash(error_message, "error")
+            # return redirect(url_for('explorer.explorer'))
 
     except requests.exceptions.RequestException as e:
         print(f"Error during API call: {e}")
         flash("서버와의 통신 중 오류가 발생했습니다.", "error")
-        return redirect(url_for('explorer.explorer'))
+        # return redirect(url_for('explorer.explorer'))
 
 # 회원 탈퇴 라우트 정의
 @auth_bp.route('/withdrawal', methods=['GET'])
@@ -139,7 +134,7 @@ def withdrawal():
 # 세션 상태 확인 및 리다이렉트 라우트 정의
 @auth_bp.route('/')
 def check_session():
-    if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
-        return redirect(url_for('explorer.explorer'))
-    else:  # 세션이 없으면 Login으로 이동
-        return redirect(url_for('auth.login'))
+    # if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
+    #     return redirect(url_for('explorer.explorer'))
+    # else:  # 세션이 없으면 Login으로 이동
+    return redirect(url_for('auth.login'))

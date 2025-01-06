@@ -12,4 +12,4 @@ def home():
         return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
     
     # 로그인된 사용자에게만 홈 화면 표시
-    return redirect(url_for('explorer.explorer'))
+    # return redirect(url_for('explorer.explorer'))
