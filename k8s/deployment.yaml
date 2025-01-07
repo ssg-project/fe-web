@@ -1,0 +1,20 @@
+piVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ticketing-web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ticketing-web
+  template:
+    metadata:
+      labels:
+        app: ticketing-web
+    spec:
+      containers:
+      - name: ticketing-web
+        image: nginx # todo
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 5000
