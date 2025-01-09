@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: ap-northeast-1
-  ECR_REPOSITORY: web-repositories 
+  ECR_REPOSITORY: web-test
   EKS_CLUSTER: test-eks
   K8S_NAMESPACE: ticketing
 
