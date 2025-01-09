@@ -33,3 +33,6 @@ spec:
           limits:
             cpu: "1000m"
             memory: "1Gi"
+        envFrom:
+          - secretRef:
+              name: ticketing-web-secret

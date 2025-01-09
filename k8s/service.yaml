@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: ticketing-web
   namespace: ticketing
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
 spec:
   type: ClusterIP  # LoadBalancer에서 ClusterIP로 변경
   selector:
