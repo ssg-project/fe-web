@@ -2,8 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ticketing-web-deployment
+  namespace: ticketing
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: ticketing-web
@@ -14,7 +15,21 @@ spec:
     spec:
       containers:
       - name: ticketing-web
-        image: nginx # todo
+        image: public.ecr.aws/n4q9v7r0/web-repositories:latest
         imagePullPolicy: Always
         ports:
-          - containerPort: 5000
+        - containerPort: 5000
+        env:
+        - name: FLASK_APP
+          value: "app.app"
+        - name: FLASK_ENV
+          value: "production"
+        command: ["flask"]
+        args: ["run", "--host=0.0.0.0"]  # 모든 인터페이스에서 수신하도록 설정
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
