@@ -3,6 +3,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: ticketing-web-hpa
   namespace: ticketing-web
+spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
