@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ticketing-web
-        image: public.ecr.aws/n4q9v7r0/web-repositories:latest
+        image: public.ecr.aws/n4q9v7r0/web-repositories:$IMAGE_TAG
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
