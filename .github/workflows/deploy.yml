@@ -37,7 +37,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Update kube config
@@ -48,3 +48,9 @@ jobs:
         sed -i 's|IMAGE_TAG|${{ github.sha }}|' k8s/deployment.yaml
         
         kubectl apply -f k8s/ -n ${{ env.K8S_NAMESPACE }}
+
+        DEPLOYMENT_NAME=$(grep "name:" k8s/deployment.yaml | head -n 1 | awk '{print $2}')
+        
+        kubectl rollout restart deployment/$DEPLOYMENT_NAME -n ${{ env.K8S_NAMESPACE }}
+        
+        kubectl rollout status deployment/$DEPLOYMENT_NAME -n ${{ env.K8S_NAMESPACE }}
