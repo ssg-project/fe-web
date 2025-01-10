@@ -1,14 +1,14 @@
 name: Deploy to AWS EKS
 on:
   push:
-    branches: [ workflow ]
+    branches: [ main ]
   pull_request:
-    branches: [ workflow ]
+    branches: [ main ]
 
 env:
-  AWS_REGION: us-east-1
-  EKS_CLUSTER: cluster-prac
-  K8S_NAMESPACE: ticketing-web
+  AWS_REGION: ap-northeast-1
+  EKS_CLUSTER: test-eks
+  K8S_NAMESPACE: ticketing
 
 jobs:
   deploy:
