@@ -25,7 +25,9 @@ spec:
         - name: FLASK_ENV
           value: "production"
         command: ["flask"]
-        args: ["run", "--host=0.0.0.0"]  # 모든 인터페이스에서 수신하도록 설정
+        args:
+          - run
+          - --host=0.0.0.0
         resources:
           requests:
             cpu: "500m"
