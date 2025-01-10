@@ -15,24 +15,27 @@ spec:
     spec:
       containers:
       - name: ticketing-web
-        image: public.ecr.aws/n4q9v7r0/web-repositories:$IMAGE_TAG
+        image: IMAGE_TAG
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
         - name: FLASK_APP
-          value: "app.app"
+          value: app.app
         - name: FLASK_ENV
-          value: "production"
-        command: ["flask"]
-        args: ["run", "--host=0.0.0.0"]  # 모든 인터페이스에서 수신하도록 설정
+          value: production
+        command:
+        - flask
+        args:
+        - run
+        - --host=0.0.0.0
         resources:
           requests:
-            cpu: "500m"
-            memory: "512Mi"
+            cpu: 500m
+            memory: 512Mi
           limits:
-            cpu: "1000m"
-            memory: "1Gi"
+            cpu: 1000m
+            memory: 1Gi
         envFrom:
-          - secretRef:
-              name: ticketing-web-secret
+        - secretRef:
+            name: ticketing-web-secret
