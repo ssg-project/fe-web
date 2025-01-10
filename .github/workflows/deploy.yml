@@ -46,12 +46,8 @@ jobs:
 
     - name: Deploy to EKS
       run: |
-        sed -i "s|image:.*|image: $PUBLIC_ECR_URI:$IMAGE_TAG|" k8s/deployment.yaml
-        
+        sed -i 's|image: .*|image: '"$PUBLIC_ECR_URI:$IMAGE_TAG"'|' k8s/deployment.yaml
         kubectl apply -f k8s/ -n ${{ env.K8S_NAMESPACE }}
-
         DEPLOYMENT_NAME=$(grep "name:" k8s/deployment.yaml | head -n 1 | awk '{print $2}')
-        
         kubectl rollout restart deployment/$DEPLOYMENT_NAME -n ${{ env.K8S_NAMESPACE }}
-        
         kubectl rollout status deployment/$DEPLOYMENT_NAME -n ${{ env.K8S_NAMESPACE }}
