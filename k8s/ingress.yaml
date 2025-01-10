@@ -6,7 +6,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
-  ingressClassName: nginx  # 이 부분이 변경됨
+  ingressClassName: nginx
   rules:
   - http:
       paths:
