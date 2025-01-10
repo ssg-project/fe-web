@@ -14,27 +14,27 @@ spec:
         app: ticketing-web
     spec:
       containers:
-      - name: ticketing-web
-        image: public.ecr.aws/n4q9v7r0/web-repositories:IMAGE_TAG
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 5000
-        env:
-        - name: FLASK_APP
-          value: "app.app"
-        - name: FLASK_ENV
-          value: "production"
-        command: ["flask"]
-        args:
-          - run
-          - --host=0.0.0.0
-        resources:
-          requests:
-            cpu: "500m"
-            memory: "512Mi"
-          limits:
-            cpu: "1000m"
-            memory: "1Gi"
-        envFrom:
-          - secretRef:
-              name: ticketing-web-secret
+        - name: ticketing-web
+          image: IMAGE_TAG
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_APP
+              value: "app.app"
+            - name: FLASK_ENV
+              value: "production"
+          command: ["flask"]
+          args:
+            - run
+            - --host=0.0.0.0
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          envFrom:
+            - secretRef:
+                name: ticketing-web-secret
