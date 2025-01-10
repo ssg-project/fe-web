@@ -45,8 +45,10 @@ jobs:
       run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }} --region ${{ env.AWS_REGION }}
 
     - name: Deploy to EKS
+      env:
+        ECR_IMAGE: ${PUBLIC_ECR_URI}:${IMAGE_TAG}
       run: |
-        sed -i 's|image: .*|image: '"$PUBLIC_ECR_URI:$IMAGE_TAG"'|' k8s/deployment.yaml
+        sed -i "s|image: IMAGE_TAG|image: $ECR_IMAGE|" k8s/deployment.yaml
         kubectl apply -f k8s/ -n ${{ env.K8S_NAMESPACE }}
         DEPLOYMENT_NAME=$(grep "name:" k8s/deployment.yaml | head -n 1 | awk '{print $2}')
         kubectl rollout restart deployment/$DEPLOYMENT_NAME -n ${{ env.K8S_NAMESPACE }}
