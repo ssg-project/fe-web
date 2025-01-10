@@ -46,7 +46,7 @@ jobs:
 
     - name: Deploy to EKS
       env:
-        ECR_IMAGE: ${{PUBLIC_ECR_URI}}:${{IMAGE_TAG}}
+        ECR_IMAGE: ${{ env.PUBLIC_ECR_URI }}:${{ github.sha }}
       run: |
         sed -i "s|image: IMAGE_TAG|image: $ECR_IMAGE|" k8s/deployment.yaml
         kubectl apply -f k8s/ -n ${{ env.K8S_NAMESPACE }}
