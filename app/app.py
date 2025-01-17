@@ -1,7 +1,8 @@
 #storage-web/app/app.py
 from flask import Flask, session, redirect, url_for, request
 from .routes.auth_route import auth_bp
-from .routes.home_route import home_bp
+from .routes.main_route import main_bp
+from .routes.detail_route import detail_bp
 # from .routes.explorer_route import explorer_bp
 
 def create_app():
@@ -17,6 +18,7 @@ def create_app():
     
     # 블루프린트 등록
     app.register_blueprint(auth_bp)
-    app.register_blueprint(home_bp)
-    
+    app.register_blueprint(main_bp)
+    app.register_blueprint(detail_bp)
+
     return app

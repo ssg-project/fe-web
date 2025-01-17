@@ -23,21 +23,14 @@
             <img src="{{ url_for('static', filename='images/image.jpg') }}" alt="공연 이미지 1">
         </div>
         <div class="details">
-            <h2>공연 이름: 마법의 오페라</h2>
-            <p><strong>장소:</strong> 서울 아트센터 대극장</p>
-            <p><strong>공연 날짜:</strong> 
-                <input type="date" id="date" min="2024-11-29" max="2025-05-18" required>
-            </p>
-            <p><strong>공연 시간:</strong> 170분 (인터미션 포함)</p>
-            <p><strong>관람 연령:</strong> 만 7세 이상</p>
-            <div class="seat-prices">
-                <p><strong>가격:</strong></p>
-                <ul>
-                    <li>VIP석: ₩170,000</li>
-                    <li>R석: ₩140,000</li>
-                    <li>S석: ₩110,000</li>
-                    <li>A석: ₩80,000</li>
-                </ul>
+            <div class="container">
+                <h1>공연 이름: {{ concert.name }}</h1>
+                <p><strong>장소:</strong> {{ concert.place }}</p>
+                <p><strong>공연 날짜:</strong> {{ concert.date }}</p>
+                <p><strong>좌석 수:</strong> {{ concert.seat_count }}</p>
+                <p><strong>가격:</strong> ₩{{ "{:,}".format(concert.price) }}</p>
+                <p><strong>설명:</strong> {{ concert.description }}</p>
+                <p><small>등록일: {{ concert.created_at }}</small></p>
             </div>
             <button class="submit-button" onclick="bookTicket()">예매하기</button>
         </div>

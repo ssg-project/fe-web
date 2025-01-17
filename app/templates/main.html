@@ -13,21 +13,24 @@
             <button onclick="showMainPage()">main</button>
         </div>
         <nav class="menu">
-            <button onclick="goToLogin()">로그인</button>
-            <button onclick="goToSignup()">회원가입</button>
-            <button onclick="goToMypage()">마이페이지</button>
+            <a href="/auth/login">로그인</a>
+            <a href="/auth/signup">회원가입</a>
+            <a href="#forgot-password">비밀번호 찾기</a>
         </nav>
     </header>
     <main class="main-content">
-        <a href="https://example.com/performance1" target="_blank">
-            <img src="{{ url_for('static', filename='images/image.jpg') }}" alt="공연 이미지 1">
-            <h2>공연 이름 1</h2>
-            <h2>공연 시간</h2>
-            <h2>공연 장소</h2>
-            
-        </a>
-        <a href="https://example.com/performance2" target="_blank">
-            <img src="{{ url_for('static', filename='images/image.jpg') }}" alt="공연 이미지 1">
+        {% for concert in concert_info %}
+        <li>
+            <a href="http://localhost:5000/concert/{{ concert.concert_id }}" target="_blank">
+                <img src="image.jpg" alt="공연 이미지 1">
+                <p>공연 이름: {{ concert.name }}</p>
+                <p>공연 날짜: {{ concert.date }}</p>
+                <p>공연 장소: {{ concert.place }}</p>
+            </a>
+        </li>
+        {% endfor %}
+        <!-- <a href="https://example.com/performance2" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 2">
             <h2>공연 이름 2</h2>
             <h2>공연 시간</h2>
             <h2>공연 장소</h2>
@@ -35,9 +38,31 @@
         <a href="https://example.com/performance3" target="_blank">
             <img src="{{ url_for('static', filename='images/image.jpg') }}" alt="공연 이미지 1">
             <h2>공연 이름 3</h2>
-            <h2>공연 시간</h2>
-            <h2>공연 장소</h2>
         </a>
+        <a href="https://example.com/performance4" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 4">
+            <h2>공연 이름 4</h2>
+        </a>
+        <a href="https://example.com/performance5" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 5">
+            <h2>공연 이름 5</h2>
+        </a>
+        <a href="https://example.com/performance6" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 6">
+            <h2>공연 이름 6</h2>
+        </a>
+        <a href="https://example.com/performance7" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 7">
+            <h2>공연 이름 7</h2>
+        </a>
+        <a href="https://example.com/performance8" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 8">
+            <h2>공연 이름 8</h2>
+        </a>
+        <a href="https://example.com/performance9" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 9">
+            <h2>공연 이름 9</h2>
+        </a> -->
     </main>
 </body>
 </html>
