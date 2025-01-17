@@ -18,5 +18,5 @@ def create_app():
     # 블루프린트 등록
     app.register_blueprint(auth_bp)
     app.register_blueprint(home_bp)
-
+    
     return app
