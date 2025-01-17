@@ -96,17 +96,23 @@
             <input type="text" placeholder="검색어를 입력하세요.">
         </div>
         <nav class="menu">
-            <a href="#login">로그인</a>
-            <a href="#signup">회원가입</a>
+            <a href="/auth/login">로그인</a>
+            <a href="/auth/signup">회원가입</a>
             <a href="#forgot-password">비밀번호 찾기</a>
         </nav>
     </header>
     <main class="main-content">
-        <a href="https://example.com/performance1" target="_blank">
-            <img src="image.jpg" alt="공연 이미지 1">
-            <h2>공연 이름 1</h2>
-        </a>
-        <a href="https://example.com/performance2" target="_blank">
+        {% for concert in concert_info %}
+        <li>
+            <a href="http://localhost:5000/concert/{{ concert.concert_id }}" target="_blank">
+                <img src="image.jpg" alt="공연 이미지 1">
+                <p>공연 이름: {{ concert.name }}</p>
+                <p>공연 날짜: {{ concert.date }}</p>
+                <p>공연 장소: {{ concert.place }}</p>
+            </a>
+        </li>
+        {% endfor %}
+        <!-- <a href="https://example.com/performance2" target="_blank">
             <img src="image.jpg" alt="공연 이미지 2">
             <h2>공연 이름 2</h2>
         </a>
@@ -137,7 +143,7 @@
         <a href="https://example.com/performance9" target="_blank">
             <img src="image.jpg" alt="공연 이미지 9">
             <h2>공연 이름 9</h2>
-        </a>
+        </a> -->
     </main>
 </body>
 </html>
