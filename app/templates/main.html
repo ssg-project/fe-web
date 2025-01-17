@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>홈페이지</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .logo button {
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            cursor: pointer;
+        }
+        .logo button:hover {
+            text-decoration: underline;
+        }
+        .search-bar {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .search-bar input {
+            width: 50%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .menu {
+            display: flex;
+            gap: 15px;
+        }
+        .menu a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 16px;
+        }
+        .menu a:hover {
+            text-decoration: underline;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+        .main-content a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .main-content img {
+            width: 100%;
+            height: auto;
+            max-width: 150px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .main-content h2 {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #333;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function showMainPage() {
+            alert('Main 페이지로 이동합니다!');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <button onclick="showMainPage()">main</button>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="검색어를 입력하세요.">
+        </div>
+        <nav class="menu">
+            <a href="#login">로그인</a>
+            <a href="#signup">회원가입</a>
+            <a href="#forgot-password">비밀번호 찾기</a>
+        </nav>
+    </header>
+    <main class="main-content">
+        <a href="https://example.com/performance1" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 1">
+            <h2>공연 이름 1</h2>
+        </a>
+        <a href="https://example.com/performance2" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 2">
+            <h2>공연 이름 2</h2>
+        </a>
+        <a href="https://example.com/performance3" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 3">
+            <h2>공연 이름 3</h2>
+        </a>
+        <a href="https://example.com/performance4" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 4">
+            <h2>공연 이름 4</h2>
+        </a>
+        <a href="https://example.com/performance5" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 5">
+            <h2>공연 이름 5</h2>
+        </a>
+        <a href="https://example.com/performance6" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 6">
+            <h2>공연 이름 6</h2>
+        </a>
+        <a href="https://example.com/performance7" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 7">
+            <h2>공연 이름 7</h2>
+        </a>
+        <a href="https://example.com/performance8" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 8">
+            <h2>공연 이름 8</h2>
+        </a>
+        <a href="https://example.com/performance9" target="_blank">
+            <img src="image.jpg" alt="공연 이미지 9">
+            <h2>공연 이름 9</h2>
+        </a>
+    </main>
+</body>
+</html>
