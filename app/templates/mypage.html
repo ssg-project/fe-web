@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        main {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .user-info, .reservations {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #007bff;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .info-item, .reservation-item {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .reservation-item {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .reservation-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .logout-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+        .logout-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>마이 페이지</h1>
+    </header>
+    <main>
+        <section class="user-info">
+            <h2 class="section-title">내 정보</h2>
+            <p class="info-item"><strong>이름:</strong> <span id="userName">00</span></p>
+            <p class="info-item"><strong>이메일:</strong> <span id="userEmail">00@example.com</span></p>
+        </section>
+        <section class="reservations">
+            <h2 class="section-title">최근 예매내역</h2>
+            <div id="reservationsList">
+                <!-- 예약 정보가 여기에 표시됩니다. -->
+            </div>
+        </section>
+        <a href="index.html" class="logout-button">로그아웃</a>
+    </main>
+    <script>
+        // 예제 데이터 시뮬레이션 (사용자 정보 및 예약 정보)
+        const userData = {
+            name: "00",
+            email: "00@example.com",
+            reservations: JSON.parse(localStorage.getItem('reservations')) || []
+        };
+
+        // 사용자 정보 표시
+        document.getElementById('userName').textContent = userData.name;
+        document.getElementById('userEmail').textContent = userData.email;
+
+        // 예약 정보 표시
+        const reservationsList = document.getElementById('reservationsList');
+        if (userData.reservations.length > 0) {
+            userData.reservations.forEach(reservation => {
+                const reservationItem = document.createElement('div');
+                reservationItem.className = 'reservation-item';
+                reservationItem.innerHTML = `
+                    <strong>공연:</strong> ${reservation.performance}<br>
+                    <strong>날짜:</strong> ${reservation.date}<br>
+                    <strong>좌석:</strong> ${reservation.seats.join(', ')}
+                `;
+                reservationsList.appendChild(reservationItem);
+            });
+        } else {
+            reservationsList.innerHTML = '<p>예약한 공연이 없습니다.</p>';
+        }
+
+        // 로그아웃 버튼 동작 (데이터 초기화)
+        document.querySelector('.logout-button').addEventListener('click', () => {
+            localStorage.removeItem('reservations');
+            alert('로그아웃되었습니다.');
+        });
+    </script>
+</body>
+</html>
