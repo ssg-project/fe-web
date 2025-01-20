@@ -38,7 +38,11 @@
                         <p><strong>가격:</strong> ₩{{ "{:,}".format(concert.price) }}</p>
                         <p><strong>설명:</strong> {{ concert.description }}</p>
                         <p><small>등록일: {{ concert.created_at }}</small></p>
-                        <button class="submit-button" onclick="bookTicket()">예매하기</button>
+                        <div class="booking-container">
+                            <form action="{{ url_for('detail.start_booking', concert_id=concert['concert_id']) }}" method="get">
+                                <button type="submit" class="submit-button">예매하기</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -100,29 +100,33 @@ def signup():
 # 로그아웃 라우트 정의
 @auth_bp.route('/logout', methods=['GET'])
 def logout():
-    if 'user_id' not in session:  # 세션이 없으면 로그인 페이지로 리다이렉트
-        flash("이미 로그아웃된 상태입니다.", "info")
-        return redirect(url_for('auth.login'))
-
-    api_url = f'{base_url}/api/v1/auth/logout'
-
+    print("Logout started. Current session:", dict(session))  # 현재 세션 상태 확인
+    
+    # API 로그아웃 요청
+    api_url = f'{base_url}/user/api/v1/auth/logout'
     try:
-        # FastAPI 서버에 로그아웃 요청 전송 (쿠키 포함)
         response = requests.post(api_url, cookies=request.cookies)
-
-        if response.status_code == 200:  # 로그아웃 성공
-            session.clear()  # Flask 세션 삭제
-            flash("로그아웃되었습니다.", "success")
-            return redirect(url_for('auth.login'))
-        else:
-            error_message = response.json().get('detail', f"서버 로그아웃 실패 (상태 코드: {response.status_code})")
-            # flash(error_message, "error")
-            # return redirect(url_for('explorer.explorer'))
-
+        
+        # 세션에서 모든 키 개별적으로 제거
+        if 'email' in session:
+            session.pop('email')
+            
+        # 세션 전체 클리어
+        session.clear()
+        
+        # 세션 쿠키 강제 만료
+        response = make_response(redirect(url_for('auth.login')))
+        response.set_cookie('session', '', expires=0)
+        
+        print("Logout completed. Session after cleanup:", dict(session))  # 세션 삭제 후 상태 확인
+        
+        flash("로그아웃되었습니다.", "success")
+        return response
+        
     except requests.exceptions.RequestException as e:
-        print(f"Error during API call: {e}")
-        flash("서버와의 통신 중 오류가 발생했습니다.", "error")
-        # return redirect(url_for('explorer.explorer'))
+        print(f"Logout error: {e}")
+        flash("로그아웃 중 오류가 발생했습니다.", "error")
+        return redirect(url_for('main.home'))
 
 # 회원 탈퇴 라우트 정의
 @auth_bp.route('/withdrawal', methods=['GET'])
@@ -138,6 +142,53 @@ def check_session():
     #     return redirect(url_for('explorer.explorer'))
     # else:  # 세션이 없으면 Login으로 이동
     return redirect(url_for('auth.login'))
+
+
+
+
+
+
+
+# @auth_bp.route('/logout', methods=['GET'])
+# def logout():
+#     if 'user_id' not in session:  # 세션이 없으면 로그인 페이지로 리다이렉트
+#         flash("이미 로그아웃된 상태입니다.", "info")
+#         return redirect(url_for('auth.login'))
+
+#     api_url = f'{base_url}/api/v1/auth/logout'
+
+#     try:
+#         # FastAPI 서버에 로그아웃 요청 전송 (쿠키 포함)
+#         response = requests.post(api_url, cookies=request.cookies)
+
+#         if response.status_code == 200:  # 로그아웃 성공
+#             session.clear()  # Flask 세션 삭제
+#             flash("로그아웃되었습니다.", "success")
+#             return redirect(url_for('auth.login'))
+#         else:
+#             error_message = response.json().get('detail', f"서버 로그아웃 실패 (상태 코드: {response.status_code})")
+#             # flash(error_message, "error")
+#             # return redirect(url_for('explorer.explorer'))
+
+#     except requests.exceptions.RequestException as e:
+#         print(f"Error during API call: {e}")
+#         flash("서버와의 통신 중 오류가 발생했습니다.", "error")
+#         # return redirect(url_for('explorer.explorer'))
+
+# # 회원 탈퇴 라우트 정의
+# @auth_bp.route('/withdrawal', methods=['GET'])
+# def withdrawal():
+#     api_url = f'{base_url}/api/v1/auth/withdrawal'
+
+#     requests.post(api_url,)
+
+# # 세션 상태 확인 및 리다이렉트 라우트 정의
+# @auth_bp.route('/')
+# def check_session():
+#     # if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
+#     #     return redirect(url_for('explorer.explorer'))
+#     # else:  # 세션이 없으면 Login으로 이동
+#     return redirect(url_for('auth.login'))
 
 
 

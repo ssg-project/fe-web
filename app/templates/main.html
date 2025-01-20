@@ -16,7 +16,11 @@
             {% if session.get('user_email') %}
                 <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
                 <a href="/mypage">마이페이지</a>
-                <a href="/auth/logout">로그아웃</a>
+                <div class="header-right">
+                    <form action="{{ url_for('auth.logout') }}" method="get">
+                        <button type="submit" class="logout-button">로그아웃</button>
+                    </form>
+                </div>
             {% else %}
                 <a href="/auth/login">로그인</a>
                 <a href="/auth/signup">회원가입</a>
