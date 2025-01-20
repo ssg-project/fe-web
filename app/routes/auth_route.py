@@ -73,7 +73,7 @@ def signup():
             return render_template('signup.html', error='비밀번호가 일치하지 않습니다.')
 
         # API 요청 데이터 준비
-        api_url = f'{base_url}/api/v1/auth/join'
+        api_url = f'{base_url}/user/api/v1/auth/join'
         headers = {'Content-Type': 'application/json'}
         data = {
             "email": email,

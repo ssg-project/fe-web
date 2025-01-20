@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예매 대기열</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/waiting.css') }}">
+    <script src="{{ url_for('static', filename='js/waiting.js') }}"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/" class="baro-ticket-link">바로티켓</a>
+        </div>
+        <nav class="menu">
+            <a href="/auth/login">로그인</a>
+            <a href="/auth/signup">회원가입</a>
+            <a href="/mypage">마이페이지</a>
+        </nav>
+    </header>
+    <main>
+        <div class="waiting-container">
+            <h1>예매 대기 중입니다</h1>
+            <p>현재 많은 사용자가 동시에 예매를 시도하고 있습니다.</p>
+            <div class="waiting-number waiting-animation">
+                대기 번호: <span id="queue-number">{{ queue_number }}</span>번
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="estimated-time">
+                예상 대기 시간: <span id="waiting-time">{{ estimated_time }}</span>분
+            </div>
+            <p>현재 대기 인원: <span id="waiting-count">{{ waiting_count }}</span>명</p>
+            <div class="warning">
+                <p>※ 브라우저를 닫거나 새로고침 시 대기 순서가 초기화됩니다.</p>
+                <p>※ 창을 최소화하여도 대기 순서는 유지됩니다.</p>
+            </div>
+        </div>
+    </main>
+
+    
+</body>
+</html>

@@ -5,29 +5,38 @@ import requests
 main_bp = Blueprint('main', __name__)
 
 # 홈 페이지 라우트 정의
+
+
 @main_bp.route('/home')
 def home():
-    # API에서 데이터 가져오기
-    api_url = "http://127.0.0.1:8000/api/v1/concert/list"
-    response = requests.get(api_url)
-
-    if response.status_code == 200:
-        concert_data = response.json()  # JSON 응답 파싱
-        # 콘서트 이름 리스트 추출
-        concert_info = [
-            {
-                "concert_id": concert["concert_id"],
-                "name": concert["name"],
-                "date": concert["date"],
-                "place": concert["place"]
-            }
-            for concert in concert_data["concerts"]
+    try:
+        # API에서 데이터 가져오기
+        api_url = "http://127.0.0.1:8000/event/api/v1/concert/list"
+        response = requests.get(api_url)
+        if response.status_code == 200:
+            concert_data = response.json()
+            # 역순으로 정렬
+            concerts = concert_data["concerts"]
+            concert_info = [
+                {
+                    "concert_id": concert["concert_id"],
+                    "name": concert["name"],
+                    "date": concert["date"],
+                    "place": concert["place"],
+                    "image": concert["image"]
+                }
+                for concert in reversed(concerts)  # reversed로 역순 정렬
             ]
-    else:
-        concert_info = ["데이터를 불러올 수 없습니다."]  # 실패 시 기본 메시지
-
-    # 콘서트 이름 리스트를 템플릿으로 전달
+        else:
+            concert_info = []
+            print(f"API 오류: {response.status_code}")
+    except Exception as e:
+        concert_info = []
+        print(f"에러 발생: {str(e)}")
+    
     return render_template('main.html', concert_info=concert_info)
+
+
 
 @main_bp.route('/')
 def main():

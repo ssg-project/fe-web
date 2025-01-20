@@ -1,7 +1,9 @@
 from flask import Blueprint, request, redirect, url_for, render_template, session
 import requests
 
-detail_bp = Blueprint('detail', __name__)
+detail_bp = Blueprint('detail', __name__, 
+                     static_folder='static',  # static 폴더 위치 지정
+                     template_folder='templates') # templates 폴더 위치 지정
 
 @detail_bp.route('/concert/<int:concert_id>')
 def concert_detail(concert_id):
@@ -19,3 +21,18 @@ def concert_detail(concert_id):
     except requests.exceptions.RequestException as e:
         # 오류 발생 시 에러 메시지 반환
         return f"API 요청 중 오류가 발생했습니다: {e}", 500
+
+
+
+@detail_bp.route('/concert/<int:concert_id>/book')
+def start_booking(concert_id):
+    # 로그인 체크
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))
+        
+    try:
+        # 대기실로 리다이렉트
+        return redirect(url_for('waiting.waiting_room', concert_id=concert_id))
+        
+    except Exception as e:
+        return f"예매 처리 중 오류가 발생했습니다: {e}", 500       
