@@ -7,17 +7,23 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
         <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     </head>
-    <body>
-        <header>
-            <div class="logo">
-                <a href="#" class="baro-ticket-link" onclick="showMainPage()">바로티켓</a>
-            </div>
-            <nav class="menu">
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('main.home') }}" class="baro-ticket-link">바로티켓</a>
+        </div>
+        <nav class="menu">
+            {% if session.get('user_email') %}
+                <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
+                <a href="/mypage">마이페이지</a>
+                <a href="/auth/logout">로그아웃</a>
+            {% else %}
                 <a href="/auth/login">로그인</a>
                 <a href="/auth/signup">회원가입</a>
-                <a href="#forgot-password">마이페이지</a>
-            </nav>
-        </header>
+                <a href="/mypage">마이페이지</a>
+            {% endif %}
+        </nav>
+    </header>
         <main>
             <div class="content-wrapper">
                 <div class="poster">

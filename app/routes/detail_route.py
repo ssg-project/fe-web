@@ -8,7 +8,7 @@ detail_bp = Blueprint('detail', __name__,
 @detail_bp.route('/concert/<int:concert_id>')
 def concert_detail(concert_id):
     # API 요청 URL
-    api_url = f"http://127.0.0.1:8000/api/v1/concert/{concert_id}"
+    api_url = f"http://127.0.0.1:8003/api/v1/concert/{concert_id}"
     
     try:
         # API로부터 데이터 가져오기

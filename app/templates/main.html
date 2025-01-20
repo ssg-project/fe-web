@@ -13,9 +13,15 @@
             <a href="#" class="baro-ticket-link" onclick="showMainPage()">바로티켓</a>
         </div>
         <nav class="menu">
-            <a href="/auth/login">로그인</a>
-            <a href="/auth/signup">회원가입</a>
-            <a href="/mypage">마이페이지</a>
+            {% if session.get('user_email') %}
+                <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
+                <a href="/mypage">마이페이지</a>
+                <a href="/auth/logout">로그아웃</a>
+            {% else %}
+                <a href="/auth/login">로그인</a>
+                <a href="/auth/signup">회원가입</a>
+                <a href="/mypage">마이페이지</a>
+            {% endif %}
         </nav>
     </header>
     <main class="main-content">
