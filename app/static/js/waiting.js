@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 초기 변수 설정
-    let currentWaitingTime = 15;
+    let currentWaitingTime = 10; // 대기 시간 (초 단위)
     let progress = 0;
     const progressBar = document.getElementById('progressBar');
     const timeValue = document.getElementById('timeValue');
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             timeValue.textContent = currentWaitingTime;
             
             // 프로그레스 바 업데이트
-            progress = ((15 - currentWaitingTime) / 15) * 100;
+            progress = ((10 - currentWaitingTime) / 10) * 100;
             progressBar.style.width = `${progress}%`;
         }
     }
@@ -32,7 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
         updateWaitingTime();
         if (currentWaitingTime <= 0) {
             clearInterval(timeInterval);
-            window.location.href = '/ticketing'; // 대기 완료 후 이동할 페이지
+
+            // 예매 완료 페이지로 이동
+            window.location.href = '/reservation_complete'; // 예매 완료 페이지 URL
         }
     }, 1000);
 

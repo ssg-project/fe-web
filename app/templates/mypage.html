@@ -1,61 +1,50 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mypage</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-</head>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ticketing System</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </head>
 <body>
     <header>
         <div class="logo">
             <a href="#" class="baro-ticket-link" onclick="showMainPage()">바로티켓</a>
         </div>
         <nav class="menu">
-            <a href="/auth/login">로그인</a>
-            <a href="/auth/signup">회원가입</a>
-            <a href="/mypage">마이페이지</a>
+            {% if session.get('user_email') %}
+                <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
+                <a href="/mypage">마이페이지</a>
+                <div class="header-right">
+                    <form action="{{ url_for('auth.logout') }}" method="get">
+                        <button type="submit" class="logout-button">로그아웃</button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="/auth/login">로그인</a>
+                <a href="/auth/signup">회원가입</a>
+                <a href="/mypage">마이페이지</a>
+            {% endif %}
         </nav>
     </header>
 
     <main class="mypage-container">
-
-        <section class="user-info">
-            <h2>내 정보</h2>
-            <div class="profile-box">
-                
-            </div>
-        </section>
-
-
-        <section class="booking-history">
-            <h2>예매 내역</h2>
-            <div class="booking-list">
-                <div class="booking-item">
-                    <div class="event-info">
-                        <h3>공연 제목</h3>
-                        <p>공연 일시: 2025.02.01 19:30</p>
-                        <p>좌석: A구역 12열 24번</p>
-                        <p>예매번호: T202501230001</p>
-                    </div>
-                    <div class="booking-status">
-                        <span class="status-label">예매완료</span>
-                        <button class="cancel-booking-btn">예매취소</button>
-                    </div>
+        <div class="mypage-content">
+            <h2 class="mypage-title">마이페이지</h2>
+            <div class="user-info">
+                <div class="info-row">
+                    <span class="label">이메일</span>
+                    <span class="value">{{ user_email }}</span>
                 </div>
-             
             </div>
-        </section>
-        
-        <section class="delete-account">
-            <h2>회원 탈퇴</h2>
-            <p>회원 탈퇴 시 모든 정보가 삭제되며 복구할 수 없습니다.</p>
-            <form action="{{ url_for('mypage.delete_account') }}" method="POST" onsubmit="return confirmDelete()">
-                <button type="submit" class="delete-btn">회원 탈퇴</button>
-            </form>
-        </section>
-        
+
+            <div class="action-buttons">
+                <a href="{{ url_for('mypage.tickets') }}" class="tickets-button">예매내역 확인하기</a>
+            </div>    
+
+
+        </div>
     </main>
 
 </body>

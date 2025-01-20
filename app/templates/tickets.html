@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>예약완료</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="#" class="baro-ticket-link" onclick="showMainPage()">바로티켓</a>
+        </div>
+        <nav class="menu">
+            {% if session.get('user_email') %}
+                <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
+                <a href="/mypage">마이페이지</a>
+                <div class="header-right">
+                    <form action="{{ url_for('auth.logout') }}" method="get">
+                        <button type="submit" class="logout-button">로그아웃</button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="/auth/login">로그인</a>
+                <a href="/auth/signup">회원가입</a>
+                <a href="/mypage">마이페이지</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main class="tickets-container">
+        <div class="tickets-content">
+            <h2 class="tickets-title">예매 내역</h2>
+            
+            {% if tickets %}
+                <div class="tickets-list">
+                    {% for ticket in tickets %}
+                        <div class="ticket-item">
+                            <div class="ticket-header">
+                                <h3 class="concert-name">{{ ticket.concert_name }}</h3>
+                                <span class="ticket-status">{{ ticket.status }}</span>
+                            </div>
+                            <div class="ticket-details">
+                                <div class="info-row">
+                                    <span class="label">공연 일시:</span>
+                                    <span class="value">{{ ticket.concert_date }}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">공연 장소:</span>
+                                    <span class="value">{{ ticket.venue }}</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">좌석:</span>
+                                    <span class="value">{{ ticket.seat }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-tickets">
+                    <p>예매 내역이 없습니다.</p>
+                    <a href="{{ url_for('main.main') }}" class="browse-button">공연 둘러보기</a>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
