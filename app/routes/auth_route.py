@@ -2,6 +2,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, make_response
 import requests
 import os
+from app.config.config import SERVER_BASE_URL
 
 # 인증 블루프린트 생성
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -103,7 +104,13 @@ def logout():
     print("Logout started. Current session:", dict(session))  # 현재 세션 상태 확인
     
     # API 로그아웃 요청
-    api_url = f'{base_url}/user/api/v1/auth/logout'
+    api_url = f'{SERVER_BASE_URL}/user/api/v1/auth/logout'
+
+    headers = {
+        'Authorization': f'Bearer {session.get('access_token')}'
+    }    
+
+
     try:
         response = requests.post(api_url, cookies=request.cookies)
         

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 초기 변수 설정
-    let currentWaitingTime = 10; // 대기 시간 (초 단위)
+    let currentWaitingTime = 2; // 대기 시간 (초 단위)
     let progress = 0;
     const progressBar = document.getElementById('progressBar');
     const timeValue = document.getElementById('timeValue');
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             timeValue.textContent = currentWaitingTime;
             
             // 프로그레스 바 업데이트
-            progress = ((10 - currentWaitingTime) / 10) * 100;
+            progress = ((2 - currentWaitingTime) / 2) * 100;
             progressBar.style.width = `${progress}%`;
         }
     }
