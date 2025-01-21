@@ -5,6 +5,7 @@ from .routes.main_route import main_bp
 from .routes.detail_route import detail_bp
 from .routes.waiting_route import waiting_bp
 from .routes.mypage_route import mypage_bp
+from .routes.payment_route import payment_bp
 
 def create_app():
     app = Flask(__name__)
@@ -23,4 +24,5 @@ def create_app():
     app.register_blueprint(detail_bp)
     app.register_blueprint(waiting_bp)
     app.register_blueprint(mypage_bp)
+    app.register_blueprint(payment_bp)
     return app

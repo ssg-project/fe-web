@@ -26,16 +26,3 @@ def concert_detail(concert_id):
 
 
 
-@detail_bp.route('/concert/<int:concert_id>/book')
-def start_booking(concert_id):
-    # 로그인 체크 - email 세션 확인
-    if 'user_email' not in session:
-        # next 파라미터에 원래 가려던 URL을 포함하여 리다이렉트
-        return redirect(url_for('auth.login', next=f'/concert/{concert_id}/book'))
-        
-    try:
-        # 대기실로 리다이렉트
-        return redirect(url_for('waiting.waiting_room', concert_id=concert_id))
-        
-    except Exception as e:
-        return f"예매 처리 중 오류가 발생했습니다: {e}", 500     

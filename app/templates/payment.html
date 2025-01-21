@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ticketing System</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ url_for('main.home') }}" class="baro-ticket-link">바로티켓</a>
+        </div>
+        <nav class="menu">
+            {% if session.get('user_email') %}
+                <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
+                <a href="/mypage">마이페이지</a>
+                <a href="/auth/logout">로그아웃</a>
+            {% else %}
+                <a href="/auth/login">로그인</a>
+                <a href="/auth/signup">회원가입</a>
+                <a href="/mypage">마이페이지</a>
+            {% endif %}
+        </nav>
+    </header>
+    <div class="payment-container">
+        <button class="payment-button" onclick="alert('결제가 진행됩니다.')">결제하기</button>
+    </div>
+</body>
+</html>
