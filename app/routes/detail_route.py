@@ -63,7 +63,7 @@ def concert_detail(concert_id):
             print(f"Error during API call: {e}")
             return render_template('login.html', error='서버와의 통신 중 오류가 발생했습니다.')
     
-    return render_template('login.html')
+    return render_template('payment.html')
 
 
         
