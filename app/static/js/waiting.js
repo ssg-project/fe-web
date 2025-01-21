@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentWaitingTime <= 0) {
             clearInterval(timeInterval);
 
-            // 예매 완료 페이지로 이동
-            window.location.href = '/reservation_complete'; // 예매 완료 페이지 URL
+            // 메인 페이지로 이동
+            window.location.href = '/home'; // 메인 페이지 URL
         }
     }, 1000);
 

@@ -43,7 +43,7 @@ def login():
                 session['user_email'] = response_data['user_email']
                 session['access_token'] = response_data['access_token']
                 
-                return redirect(url_for('main.home'))
+                return redirect(url_for('waiting.waiting_room'))
             elif response.status_code == 401:  # 인증 실패
                 error_message = response.json().get('detail', '로그인에 실패했습니다.')
                 return render_template('login.html', error=error_message)
