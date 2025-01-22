@@ -1,44 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ticketing System</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    </head>
-<body>
-    <header>
-        <div class="logo">
-            <a href="#" class="baro-ticket-link" onclick="showMainPage()">바로티켓</a>
-        </div>
-        <nav class="menu">
-            {% if session.get('user_email') %}
-                <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
-                <a href="/mypage">마이페이지</a>
-                <div class="header-right">
-                    <form action="{{ url_for('auth.logout') }}" method="get">
-                        <button type="submit" class="logout-button">로그아웃</button>
-                    </form>
-                </div>
-            {% else %}
-                <a href="/auth/login">로그인</a>
-                <a href="/auth/signup">회원가입</a>
-                <a href="/mypage">마이페이지</a>
-            {% endif %}
-        </nav>
-    </header>
-    <main class="main-content">
-        {% for concert in concert_info %}
-        <li>
-            <a href="http://localhost:5000/concert/{{ concert.concert_id }}" target="_blank">
-                <img src="{{ concert.image }}" alt="공연 이미지: {{ concert.name }}">
-                <p>공연 이름: {{ concert.name }}</p>
-                <p>공연 날짜: {{ concert.date }}</p>
-                <p>공연 장소: {{ concert.place }}</p>
-            </a>
-        </li>
-        {% endfor %}
-    </main>
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}메인 페이지{% endblock %}
+
+{% block content %}
+    {% for concert in concert_info %}
+    <li>
+        <a href="{{ config['SERVER_BASE_URL'] }}/concert/{{ concert.concert_id }}" target="_blank">
+            <img src="{{ concert.image }}" alt="공연 이미지: {{ concert.name }}">
+            <p>공연 이름: {{ concert.name }}</p>
+            <p>공연 날짜: {{ concert.date }}</p>
+            <p>공연 장소: {{ concert.place }}</p>
+        </a>
+    </li>
+    {% endfor %}
+{% endblock %}

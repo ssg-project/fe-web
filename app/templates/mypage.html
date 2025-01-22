@@ -1,51 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ticketing System</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    </head>
-<body>
-    <header>
-        <div class="logo">
-            <a href="#" class="baro-ticket-link" onclick="showMainPage()">바로티켓</a>
-        </div>
-        <nav class="menu">
-            {% if session.get('user_email') %}
-                <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
-                <a href="/mypage">마이페이지</a>
-                <div class="header-right">
-                    <form action="{{ url_for('auth.logout') }}" method="get">
-                        <button type="submit" class="logout-button">로그아웃</button>
-                    </form>
-                </div>
-            {% else %}
-                <a href="/auth/login">로그인</a>
-                <a href="/auth/signup">회원가입</a>
-                <a href="/mypage">마이페이지</a>
-            {% endif %}
-        </nav>
-    </header>
+{% extends "layout.html" %}
 
-    <main class="mypage-container">
-        <div class="mypage-content">
-            <h2 class="mypage-title">마이페이지</h2>
-            <div class="user-info">
-                <div class="info-row">
-                    <span class="label">이메일</span>
-                    <span class="value">{{ user_email }}</span>
-                </div>
+{% block title %}마이페이지{% endblock %}
+
+{% block content %}
+<main class="mypage-container">
+    <div class="mypage-content">
+        <h2 class="mypage-title">마이페이지</h2>
+
+        <section class="user-info">
+            <div class="info-row">
+                <span class="label">이메일</span>
+                <span class="value">{{ user_email }}</span>
             </div>
+        </section>
 
-            <div class="action-buttons">
-                <a href="{{ url_for('mypage.tickets') }}" class="tickets-button">예매내역 확인하기</a>
-            </div>    
+        <section class="action-buttons">
+            <form action="{{ url_for('mypage.tickets') }}" method="get">
+                <button type="submit" class="tickets-button">예매내역 확인하기</button>
+            </form>
+        </section>
+    </div>
+</main>
 
+<style>
+.mypage-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
 
-        </div>
-    </main>
+.mypage-content {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 500px;
+    width: 100%;
+}
 
-</body>
-</html>
+.mypage-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.user-info {
+    margin-bottom: 20px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    color: #555;
+}
+
+.label {
+    font-weight: bold;
+    color: #333;
+}
+
+.value {
+    color: #666;
+}
+
+.action-buttons {
+    text-align: center;
+}
+
+.tickets-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tickets-button:hover {
+    background-color: #45a049;
+}
+</style>
+{% endblock %}

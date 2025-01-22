@@ -1,19 +1,23 @@
 from flask import Blueprint, request, redirect, url_for, render_template, session
 import requests
+import os
+from app.config.config import SERVER_BASE_URL
 
 # 홈 페이지 블루프린트 생성
 main_bp = Blueprint('main', __name__)
 
-# 홈 페이지 라우트 정의
-
+# FastAPI 서버 URL
+# FASTAPI_BASE_URL = 'http://127.0.0.1:8000/api/v1/auth'
+base_url = os.getenv('SERVER_BASE_URL')
 
 @main_bp.route('/home')
 def home():
     try:
         # API에서 데이터 가져오기
-        api_url = "http://127.0.0.1:8000/event/api/v1/concert/list"
+        api_url = f'{base_url}/event/api/v1/concert/list'
         response = requests.get(api_url)
         if response.status_code == 200:
+            print(session.get('user_email'))
             concert_data = response.json()
             # 역순으로 정렬
             concerts = concert_data["concerts"]

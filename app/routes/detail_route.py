@@ -12,8 +12,17 @@ detail_bp = Blueprint('detail', __name__,
 @detail_bp.route('/concert/<int:concert_id>', methods=['GET', 'POST'])
 def concert_detail(concert_id):
     if request.method == 'GET':
+
+        print("\n=== Session Debug in Detail ===")
+        print(f"Current session email: {session.get('user_email')}")
+        print(f"Current session token: {session.get('access_token')}")
+        print(f"All session data: {dict(session)}")
+        print("==============================\n")
         
         api_url = f"{SERVER_BASE_URL}/event/api/v1/concert/{concert_id}"
+
+        access_token = session.get('access_token')
+        user_email = session.get('user_email')
 
         # 헤더 설정
         headers = {
@@ -22,14 +31,18 @@ def concert_detail(concert_id):
     
         try:
             # API로부터 데이터 가져오기
-            response = requests.get(api_url)
+            response = requests.get(api_url, headers=headers)
             response.raise_for_status()  # HTTP 에러 발생 시 예외 처리
             concert_data = response.json().get('concert', {})
-
-            print("Concert Data:", concert_data)  # 데이터 구조 확인용
+            
+            # API 응답 디버깅
+            print("\n=== API Response Debug ===")
+            print(f"Response status: {response.status_code}")
+            print(f"Concert Data: {concert_data}")
+            print("=========================\n")
             
             # 데이터를 HTML에 전달
-            return render_template('detail.html', concert=concert_data, email=session.get('user_email'))
+            return render_template('detail.html', concert=concert_data, user_email=user_email)
         except requests.exceptions.RequestException as e:
             # 오류 발생 시 에러 메시지 반환
             return f"API 요청 중 오류가 발생했습니다: {e}", 500

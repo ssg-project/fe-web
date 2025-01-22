@@ -1,51 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ticketing System</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    </head>
-<body>
-    <header>
-        <div class="logo">
-            <a href="{{ url_for('main.home') }}" class="baro-ticket-link">바로티켓</a>
-        </div>
-        <nav class="menu">
-            {% if session.get('user_email') %}
-                <span class="welcome-message">{{ session.get('user_email') }}님 안녕하세요</span>
-                <a href="/mypage">마이페이지</a>
-                <a href="/auth/logout">로그아웃</a>
-            {% else %}
-                <a href="/auth/login">로그인</a>
-                <a href="/auth/signup">회원가입</a>
-                <a href="/mypage">마이페이지</a>
-            {% endif %}
-        </nav>
-    </header>
-        <main>
-            <div class="content-wrapper">
-                <div class="poster">
-                    <img src="{{ concert.image }}" alt="공연 이미지: {{ concert.name }}">
-                </div>
-                <div class="details">
-                    <div class="container">
-                        <h1>{{ concert.name }}</h1>
-                        <p><strong>장소:</strong> {{ concert.place }}</p>
-                        <p><strong>공연 날짜:</strong> {{ concert.date }}</p>
-                        <p><strong>좌석 수:</strong> {{ concert.seat_count }}</p>
-                        <p><strong>가격:</strong> ₩{{ "{:,}".format(concert.price) }}</p>
-                        <p><strong>설명:</strong> {{ concert.description }}</p>
-                        <p><small>등록일: {{ concert.created_at }}</small></p>
-                        <div class="booking-container">
-                            <form action="{{ url_for('detail.concert_detail', concert_id=concert['concert_id']) }}" method="post">
-                                <button type="submit" class="submit-button">예매하기</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+{% extends "layout.html" %}
+
+{% block title %}{{ concert.name }} - 공연 상세{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="poster">
+        <img src="{{ concert.image }}" alt="공연 이미지: {{ concert.name }}">
+    </div>
+    <div class="details">
+        <div class="container">
+            <h1>{{ concert.name }}</h1>
+            <p><strong>장소:</strong> {{ concert.place }}</p>
+            <p><strong>공연 날짜:</strong> {{ concert.date }}</p>
+            <p><strong>좌석 수:</strong> {{ concert.seat_count }}</p>
+            <p><strong>가격:</strong> ₩{{ "{:,}".format(concert.price) }}</p>
+            <p><strong>설명:</strong> {{ concert.description }}</p>
+            <p><small>등록일: {{ concert.created_at }}</small></p>
+            <div class="booking-container">
+                <form action="{{ url_for('detail.concert_detail', concert_id=concert['concert_id']) }}" method="post">
+                    <button type="submit" class="submit-button">예매하기</button>
+                </form>
             </div>
-        </main>
-    </body>
-</html>
+        </div>
+    </div>
+</div>
+{% endblock %}

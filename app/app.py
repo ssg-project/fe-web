@@ -6,6 +6,7 @@ from .routes.detail_route import detail_bp
 from .routes.waiting_route import waiting_bp
 from .routes.mypage_route import mypage_bp
 from .routes.payment_route import payment_bp
+from datetime import timedelta
 
 def create_app():
     app = Flask(__name__)
@@ -15,7 +16,9 @@ def create_app():
         SESSION_COOKIE_NAME='session',
         SESSION_COOKIE_HTTPONLY=True,  # 쿠키를 자바스크립트에서 접근할 수 없게 설정
         SESSION_COOKIE_SECURE=False,  # HTTPS에서만 쿠키 전송
-        SESSION_COOKIE_SAMESITE='Lax',  # SameSite 설정 (크로스 사이트 쿠키 전송 허용)
+        # SESSION_COOKIE_SAMESITE='Lax',  # SameSite 설정 (크로스 사이트 쿠키 전송 허용)
+        PERMANENT_SESSION_LIFETIME=timedelta(hours=1)
+
     )
     
     # 블루프린트 등록
