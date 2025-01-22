@@ -27,7 +27,7 @@ def concert_detail(concert_id):
 
         # 헤더 설정
         headers = {
-            'Authorization': f'Bearer {session.get('access_token')}'
+            'Authorization': f'Bearer {session.get("access_token")}'
         }
     
         try:
@@ -57,7 +57,7 @@ def concert_detail(concert_id):
         }
 
         headers = {
-            'Authorization': f'Bearer {session.get('access_token')}'
+            'Authorization': f'Bearer {session.get("access_token")}'
         }
 
         try:
