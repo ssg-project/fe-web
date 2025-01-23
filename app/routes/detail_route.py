@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, render_template, session, jsonify, json
+from flask import Blueprint, request, url_for, redirect, render_template, session, jsonify, json
 from flask_socketio import SocketIO, emit
 import requests
 import websocket
@@ -90,8 +90,12 @@ def concert_detail(concert_id):
                                         print("Reservation succeeded")
                                         ws.close()
                                         # 성공 처리 로직
-                                        return jsonify({"success": True, "message": "Reservation succeeded"}), 200
-
+                                        return jsonify({
+                                            "success": True, 
+                                            "message": "Reservation succeeded",
+                                            "redirect": url_for('payment.process_payment', concert_id=concert_id)
+                                        }), 200
+                                
                                     # 실패 처리
                                     elif message_data.get('status') == 'fail':
                                         print(12314)
