@@ -1,4 +1,5 @@
 from flask import Blueprint, request, redirect, render_template, session, jsonify, json
+from flask_socketio import SocketIO, emit
 import requests
 import websocket
 from app.config.config import SERVER_BASE_URL, WEBSOCKET_SERVER_URL
@@ -73,17 +74,40 @@ def concert_detail(concert_id):
             if response.status_code == 200:
                 try:
                     ws = websocket.create_connection(WEBSOCKET_SERVER_URL)
+                    print("WebSocket connected")
 
-                    response_data = response.json()
+                    while True:
+                        message = ws.recv()  # 서버로부터 메시지 수신
+                        print(f"Received message: {message}")
 
-                    if "some_specific_data" in response_data:
-                        ws.send(json.dumps({"type": "alert", "message": "특정 상황 발생"}))
+                        try:
+                            message_data = json.loads(message)
+                            print(message_data)
+                            if message_data.get('type') == 'reservation_status':
+                                if (message_data.get('user_id') == str(session.get('user_id')) and message_data.get('concert_id') == str(concert_id)):
+                                    # 성공 처리
+                                    if message_data.get('status') == 'success':
+                                        print("Reservation succeeded")
+                                        ws.close()
+                                        # 성공 처리 로직
+                                        return jsonify({"success": True, "message": "Reservation succeeded"}), 200
 
-                    ws.close()
+                                    # 실패 처리
+                                    elif message_data.get('status') == 'fail':
+                                        print(12314)
+                                        error_message = message_data.get('message', 'Reservation failed')
+                                        print(f"Reservation failed: {error_message}")
+                                        ws.close()
+                                        # 실패 처리 로직
+                                        return jsonify({"success": False, "error": error_message}), 400
 
-                    return redirect(f"/concert/{concert_id}/payment")
-
-
+                        except websocket.WebSocketException as ws_error:
+                            print(f"WebSocket connection error: {ws_error}")
+                            return jsonify({
+                                "success": False,
+                                "error": "웹소켓 연결 실패"
+                            }), 500
+                    
                 
                 except websocket.WebSocketException as ws_error:
                     print(f"WebSocket connection error: {ws_error}")
@@ -102,3 +126,4 @@ def concert_detail(concert_id):
         except requests.exceptions.RequestException as e:
             print(f"Error during API call: {e}")
             return jsonify({"success": False}), 500
+        

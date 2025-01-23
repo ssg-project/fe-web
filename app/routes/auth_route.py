@@ -41,13 +41,14 @@ def login():
             
             if response.status_code == 200:  # 로그인 성공
                 response_data = response.json()
-
+                print(response_data)
                 print("\n=== Before Session Update ===")
                 print(f"Current Session: {dict(session)}")
                 
                 session.clear()  # 기존 세션 제거
                 session.permanent = True  # 세션 영구 설정
 
+                session['user_id'] = response_data['user_id']
                 session['user_email'] = response_data['user_email']
                 session['access_token'] = response_data['access_token']
 
