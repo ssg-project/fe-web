@@ -3,6 +3,7 @@
 {% block title %}{{ concert.name }} - 공연 상세{% endblock %}
 
 {% block content %}
+<div id="concert-detail" data-concert='{{ concert|tojson|safe }}'></div>
 <div class="content-wrapper">
     <div class="poster">
         <img src="{{ concert.image }}" alt="공연 이미지: {{ concert.name }}">
@@ -13,15 +14,20 @@
             <p><strong>장소:</strong> {{ concert.place }}</p>
             <p><strong>공연 날짜:</strong> {{ concert.date }}</p>
             <p><strong>좌석 수:</strong> {{ concert.seat_count }}</p>
-            <p><strong>가격:</strong> ₩{{ "{:,}".format(concert.price) }}</p>
             <p><strong>설명:</strong> {{ concert.description }}</p>
             <p><small>등록일: {{ concert.created_at }}</small></p>
             <div class="booking-container">
-                <button type="button" onclick="bookConcert()" class="submit-button">예매하기</button>
+                {% if concert.is_reserved == True %}
+                <button type="button" class="submit-button sold-out" disabled>예매완료</button>
+                {% elif concert.is_full == True %}
+                <button type="button" class="submit-button sold-out" disabled>좌석매진</button>
+                {% else %}
+                    <button type="button" onclick="bookConcert()" class="submit-button">예매하기</button>
+                {% endif %}
             </div>
         </div>
     </div>
-</div>
+ </div>
 
 <!-- 웹소켓 URL 전달을 위한 hidden input -->
 <input type="hidden" id="websocket-url" value="{{ config['WEBSOCKET_SERVER_URL'] }}">

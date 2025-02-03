@@ -191,3 +191,11 @@ header {
     font-size: 1rem;
     transition: background-color 0.3s;
 }
+
+
+
+.submit-button.sold-out {
+    background-color: #9CA3AF !important;
+    color: #4B5563 !important;
+    cursor: not-allowed;
+}
