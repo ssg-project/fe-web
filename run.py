@@ -7,4 +7,4 @@ if __name__ == '__main__':
 
 @app.get("/health")
 async def health_check():
-    return {"status": "ok"}
+    return {"status": "ok"}, 200
