@@ -19,6 +19,8 @@
             <div class="booking-container">
                 {% if concert.is_full == True %}
                 <button type="button" class="submit-button sold-out" disabled>좌석매진</button>
+                {% elif concert.is_reserved == True %}
+                <button type="button" class="submit-button sold-out" disabled>예매완료</button>
                 {% else %}
                     <button type="button" onclick="bookConcert()" class="submit-button">예매하기</button>
                 {% endif %}
@@ -43,7 +45,8 @@ function bookConcert() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            window.location.href = data.redirect;
+            alert("예약이 성공했습니다.");
+            location.reload(true);
         } else {
             alert(data.error);
         }
