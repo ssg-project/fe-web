@@ -9,10 +9,5 @@ COPY . /app/
 
 # 의존성 설치
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install gunicorn
 
-# 컨테이너 포트 노출
-EXPOSE 5000
-
-# 애플리케이션 실행
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]
+CMD ["python", "run.py"]
