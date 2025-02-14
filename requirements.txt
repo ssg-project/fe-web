@@ -1,5 +1,4 @@
 Flask==3.1.0
 Requests==2.32.3
-python-dotenv==1.0.1
 itsdangerous==2.2.0
 websocket-client
