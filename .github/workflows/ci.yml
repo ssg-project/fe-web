@@ -3,6 +3,7 @@ name: fe CI
 on:
   push:
     branches: ['main']
+    paths-ignore: ['.github/**']
 
 jobs:
   deploy:
