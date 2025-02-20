@@ -1,8 +1,9 @@
 from app.app import create_app
-from flask import Flask
+#from flask import Flask
 #from prometheus_flask_exporter import PrometheusMetrics
 
-app = Flask(__name__)
+app = create_app()
+#app = Flask(__name__)
 
 #metrics = PrometheusMetrics(app)
 
