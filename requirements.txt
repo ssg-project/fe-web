@@ -2,3 +2,4 @@ Flask==3.1.0
 Requests==2.32.3
 itsdangerous==2.2.0
 websocket-client
+prometheus-flask-exporter==0.23.1
