@@ -3,7 +3,7 @@ name: fe CI
 on:
   push:
     branches: ['main']
-    paths-ignore: ['.github/**']
+    # paths-ignore: ['.github/**']
 
 jobs:
   deploy:
@@ -41,3 +41,14 @@ jobs:
           repository: ssg-project/ticketing-ops
           event-type: update-image
           client-payload: '{"sha": "${{ github.sha }}", "repo": "fe"}'
+      
+      - name: slack-notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: www-be
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          if_mention: failure,cancelled
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
