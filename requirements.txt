@@ -3,3 +3,4 @@ Requests==2.32.3
 itsdangerous==2.2.0
 websocket-client
 prometheus-flask-exporter==0.23.1
+python-dotenv==1.0.1
