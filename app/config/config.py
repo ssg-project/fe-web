@@ -1,4 +1,8 @@
 import os
+from dotenv import load_dotenv
+
+if not os.getenv("APP_ENV"):
+    load_dotenv()
 
 # SERVER BASE URL 설정
 SERVER_BASE_URL = os.getenv("SERVER_BASE_URL")

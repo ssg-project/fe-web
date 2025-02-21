@@ -1,7 +1,6 @@
 #storage-web/app/routes/auth_route.py
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, make_response
 import requests
-import os
 from app.config.config import SERVER_BASE_URL
 
 # 인증 블루프린트 생성
@@ -9,7 +8,7 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 # FastAPI 서버 URL
 # FASTAPI_BASE_URL = 'http://127.0.0.1:8000/api/v1/auth'
-base_url = os.getenv('SERVER_BASE_URL')
+
 
 # 로그인 라우트 정의
 
@@ -19,7 +18,7 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        api_url = f'{base_url}/user/api/v1/auth/login'
+        api_url = f'{SERVER_BASE_URL}/user/api/v1/auth/login'
         data = {
             "email": email,
             "password": password
@@ -102,7 +101,7 @@ def signup():
             return render_template('signup.html', error='비밀번호가 일치하지 않습니다.')
 
         # API 요청 데이터 준비
-        api_url = f'{base_url}/user/api/v1/auth/join'
+        api_url = f'{SERVER_BASE_URL}/user/api/v1/auth/join'
         headers = {'Content-Type': 'application/json'}
         data = {
             "email": email,
@@ -173,7 +172,7 @@ def logout():
 # 회원 탈퇴 라우트 정의
 @auth_bp.route('/withdrawal', methods=['GET'])
 def withdrawal():
-    api_url = f'{base_url}/api/v1/auth/withdrawal'
+    api_url = f'{SERVER_BASE_URL}/api/v1/auth/withdrawal'
 
     requests.post(api_url,)
 

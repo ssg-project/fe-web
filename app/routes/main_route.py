@@ -8,13 +8,11 @@ main_bp = Blueprint('main', __name__)
 
 # FastAPI 서버 URL
 # FASTAPI_BASE_URL = 'http://127.0.0.1:8000/api/v1/auth'
-base_url = os.getenv('SERVER_BASE_URL')
-
 @main_bp.route('/home')
 def home():
     try:
         # API에서 데이터 가져오기
-        api_url = f'{base_url}/event/api/v1/concert/list'
+        api_url = f'{SERVER_BASE_URL}/event/api/v1/concert/list'
         response = requests.get(api_url)
         if response.status_code == 200:
             print(session.get('user_email'))

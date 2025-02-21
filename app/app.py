@@ -18,7 +18,6 @@ def create_app():
         SESSION_COOKIE_SECURE=False,  # HTTPS에서만 쿠키 전송
         # SESSION_COOKIE_SAMESITE='Lax',  # SameSite 설정 (크로스 사이트 쿠키 전송 허용)
         PERMANENT_SESSION_LIFETIME=timedelta(hours=1)
-
     )
     
     # 블루프린트 등록
