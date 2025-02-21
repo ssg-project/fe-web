@@ -49,5 +49,5 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_COLOR: ${{ job.status }}
-          SLACK_MESSAGE: 'Frontend CI ${{ job.status }}'
-          SLACK_TITLE: 'Frontend CI Status'
+          SLACK_MESSAGE: 'CI ${{ job.status }}'
+          SLACK_TITLE: 'Frontend Status'
