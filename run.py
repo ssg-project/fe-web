@@ -1,10 +1,9 @@
 from app.app import create_app
-from flask import Flask
-from prometheus_flask_exporter import PrometheusMetrics
+# from prometheus_flask_exporter import PrometheusMetrics
 
 app = create_app()
 
-metrics = PrometheusMetrics(app)
+# metrics = PrometheusMetrics(app)
 
 @app.get("/health")
 def health_check():
