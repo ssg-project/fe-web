@@ -8,4 +8,4 @@ if not os.getenv("APP_ENV"):
 SERVER_BASE_URL = os.getenv("SERVER_BASE_URL")
 
 # Websocket 설정
-WEBSOCKET_SERVER_URL = os.getenv("WEBSOCKET_URL")
+WEBSOCKET_SERVER_URL = os.getenv("WEBSOCKET_SERVER_URL")
