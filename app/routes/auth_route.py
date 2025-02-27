@@ -2,16 +2,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, make_response
 import requests
 from app.config.config import SERVER_BASE_URL
+import logging
+
+logger = logging.getLogger(__name__)
 
 # 인증 블루프린트 생성
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-# FastAPI 서버 URL
-# FASTAPI_BASE_URL = 'http://127.0.0.1:8000/api/v1/auth'
-
-
 # 로그인 라우트 정의
-
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -24,25 +22,15 @@ def login():
             "password": password
         }
 
-        # 디버깅 로그
-        print("\n=== Login Request Debug ===")
-        print(f"API URL: {api_url}")
-        print(f"Request Data: {data}")
+        logger.info(f"auth route login api - start : API URL: {api_url}, Request Data: {data}")
         
         try:
             # API 호출
             response = requests.post(api_url, json=data)
-            
-            # 응답 로그
-            print(f"Response Status: {response.status_code}")
-            print(f"Response Body: {response.text}")
-            print("==========================\n")
-            
+                       
             if response.status_code == 200:  # 로그인 성공
                 response_data = response.json()
-                print(response_data)
-                print("\n=== Before Session Update ===")
-                print(f"Current Session: {dict(session)}")
+
                 
                 session.clear()  # 기존 세션 제거
                 session.permanent = True  # 세션 영구 설정
@@ -51,8 +39,7 @@ def login():
                 session['user_email'] = response_data['user_email']
                 session['access_token'] = response_data['access_token']
 
-                print("\n=== After Session Update ===")
-                print(f"Updated Session: {dict(session)}")
+
                 session.modified = True  # 세션 변경 사항 명시적 저장
 
                 next_page = request.args.get('next')
@@ -68,7 +55,7 @@ def login():
                     secure=False,  # 개발환경에서는 False
                     samesite='Lax'
                 )
-                
+                logger.info(f"auth route login api - success")
                 return response
 
 
@@ -80,7 +67,7 @@ def login():
                 return render_template('login.html', error=error_message)
                 
         except requests.exceptions.RequestException as e:
-            print(f"Error during API call: {e}")
+            logger.error(f"auth route login api - error: {e}")
             return render_template('login.html', error='서버와의 통신 중 오류가 발생했습니다.')
             
     return render_template('login.html')
@@ -88,8 +75,6 @@ def login():
 # 회원가입 라우트 정의
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    # if 'user_id' in session:  # 세션이 있으면 Explorer로 이동
-    #     return redirect(url_for('explorer.explorer'))
 
     if request.method == 'POST':
         email = request.form.get('email')
@@ -111,9 +96,10 @@ def signup():
         try:
             # API 호출
             response = requests.post(api_url, json=data, headers=headers)
-
+            logger.info(f"auth route join api - start : API URL: {api_url}, Request Data: {data}")
             if response.status_code == 200:  # 회원가입 성공 (200 Created)
                 flash('회원가입이 완료되었습니다! 로그인하세요.', 'success')
+                logger.info(f"auth route join api - success")
                 return redirect(url_for('auth.login'))  # 로그인 페이지로 리다이렉트
             else:
                 error_message = response.json().get('detail', '회원가입에 실패했습니다.')
@@ -121,6 +107,7 @@ def signup():
 
         except requests.exceptions.RequestException as e:
             print(f"Error during API call: {e}")
+            logger.error(f"auth route join api - error: {e}")
             return render_template('signup.html', error='서버와의 통신 중 오류가 발생했습니다.')
 
     return render_template('signup.html')  # GET 요청 시 회원가입 폼 렌더링
@@ -146,9 +133,7 @@ def logout():
     try:
         # API 호출
         response = requests.post(api_url, headers=headers)
-        print(f"Access Token: {access_token}")
-        print(f"Response Status: {response.status_code}")
-        print(f"Response Body: {response.text}")
+        logger.info(f"auth route logout api - start : API URL: {api_url}, access_token: {access_token}")
         
         # 세션 정리
         session.clear()
@@ -157,16 +142,16 @@ def logout():
         response = make_response(redirect(url_for('auth.login')))
         response.set_cookie('session', '', expires=0)
         
-        print("Logout completed. Session after cleanup:", dict(session))
-        
         flash("로그아웃되었습니다.", "success")
+        logger.info(f"auth route logout api - success")
         return response
         
     except requests.exceptions.RequestException as e:
-        print(f"Logout error: {e}")
+
         flash("로그아웃 중 오류가 발생했습니다.", "error")
         # 에러 발생해도 세션은 클리어
         session.clear()
+        logger.error(f"auth route logout api - error: {e}")
         return redirect(url_for('auth.login'))
 
 # 회원 탈퇴 라우트 정의
