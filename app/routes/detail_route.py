@@ -62,7 +62,7 @@ def concert_detail(concert_id):
 
                     while True:
                         message = ws.recv()  # 서버로부터 메시지 수신
-                        print(f"Received message: {message}")
+                        logger.info(f"Received message: {message}")
 
                         try:
                             message_data = json.loads(message)
