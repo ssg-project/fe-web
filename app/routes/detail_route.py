@@ -85,7 +85,7 @@ def concert_detail(concert_id):
                                         return jsonify({"success": False, "error": error_message}), 400
 
                         except websocket.WebSocketException as ws_error:
-                            logger.info(f"WebSocket connection error: {ws_error}")
+                            logger.info(f"WebSocket connection error 1: {ws_error}")
                             return jsonify({
                                 "success": False,
                                 "error": "웹소켓 연결 실패"
@@ -93,7 +93,7 @@ def concert_detail(concert_id):
                     
                 
                 except websocket.WebSocketException as ws_error:
-                    logger.info(f"WebSocket connection error: {ws_error}")
+                    logger.info(f"WebSocket connection error 2: {ws_error}")
                     return jsonify({
                         "success": False,
                         "error": "웹소켓 연결 실패"

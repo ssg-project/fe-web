@@ -9,7 +9,7 @@ metrics = PrometheusMetrics(app)
 # 로깅 설정
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - event-service - %(name)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - web-fe - %(name)s - %(levelname)s - %(message)s",
     handlers=[logging.StreamHandler()]
 )
 
