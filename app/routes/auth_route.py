@@ -4,7 +4,9 @@ import requests
 from app.config.config import SERVER_BASE_URL
 import logging
 
-logger = logging.getLogger(__name__)
+
+
+logger = logging.getLogger("web-fe")
 
 # 인증 블루프린트 생성
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -22,7 +24,7 @@ def login():
             "password": password
         }
 
-        logger.info(f"auth route login api - start : API URL: {api_url}, Request Data: {data}")
+        logger.info(f"auth route login api - start : API URL: {api_url}, email: {data}")
         
         try:
             # API 호출

@@ -1,14 +1,14 @@
 from flask import Blueprint, request, redirect, url_for, render_template, session
 import requests
-import os
 from app.config.config import SERVER_BASE_URL
 import logging
 
 
 # 홈 페이지 블루프린트 생성
 main_bp = Blueprint('main', __name__)
-logger = logging.getLogger(__name__)
 
+
+logger = logging.getLogger("web-fe")
 
 @main_bp.route('/home')
 def home():

@@ -10,7 +10,7 @@ detail_bp = Blueprint('detail', __name__,
                      template_folder='templates') # templates 폴더 위치 지정
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("web-fe")
 
 
 @detail_bp.route('/concert/<int:concert_id>', methods=['GET', 'POST'])
