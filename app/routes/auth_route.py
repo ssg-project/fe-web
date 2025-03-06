@@ -45,7 +45,7 @@ def login():
                 session.modified = True  # 세션 변경 사항 명시적 저장
 
                 next_page = request.args.get('next')
-                response = make_response(redirect(next_page if next_page else url_for('waiting.waiting_room')))
+                response = make_response(redirect(next_page if next_page else url_for('main.home')))
 
                 # 세션 쿠키 설정
                 max_age = 3600  # 1시간
