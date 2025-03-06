@@ -4,3 +4,4 @@ itsdangerous==2.2.0
 websocket-client
 prometheus-flask-exporter==0.23.1
 python-dotenv==1.0.1
+boto3==1.36.0
