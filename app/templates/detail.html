@@ -1,36 +1,119 @@
 {% extends "layout.html" %}
-
 {% block title %}{{ concert.name }} - 공연 상세{% endblock %}
-
 {% block content %}
 <div id="concert-detail" data-concert='{{ concert|tojson|safe }}'></div>
 <div class="content-wrapper">
-    <div class="poster">
-        <img src="{{ concert.image }}" alt="공연 이미지: {{ concert.name }}">
-    </div>
-    <div class="details">
-        <div class="container">
-            <h1>{{ concert.name }}</h1>
-            <p><strong>장소:</strong> {{ concert.place }}</p>
-            <p><strong>공연 날짜:</strong> {{ concert.date }}</p>
-            <p><strong>좌석 수:</strong> {{ concert.seat_count }}</p>
-            <p><strong>설명:</strong> {{ concert.description }}</p>
-            <p><small>등록일: {{ concert.created_at }}</small></p>
+    <div class="card">
+        <div class="poster-container">
+            <img src="{{ concert.image }}" alt="공연 이미지: {{ concert.name }}">
+        </div>
+        <div class="info-container">
+            <h1 class="card-title">{{ concert.name }}</h1>
+            <div class="details">
+                <p><strong>장소:</strong> {{ concert.place }}</p>
+                <p><strong>공연 날짜:</strong> {{ concert.date }}</p>
+                <p><strong>좌석 수:</strong> {{ concert.seat_count }}</p>
+                <p><strong>설명:</strong> {{ concert.description }}</p>
+                <p><small>등록일: {{ concert.created_at }}</small></p>
+            </div>
             <div class="booking-container">
                 {% if concert.is_full == True %}
                 <button type="button" class="submit-button sold-out" disabled>좌석매진</button>
                 {% elif concert.is_reserved == True %}
                 <button type="button" class="submit-button sold-out" disabled>예매완료</button>
                 {% else %}
-                    <button type="button" onclick="bookConcert()" class="submit-button">예매하기</button>
+                <button type="button" onclick="bookConcert()" class="submit-button">예매하기</button>
                 {% endif %}
             </div>
         </div>
     </div>
- </div>
+</div>
 
 <!-- 웹소켓 URL 전달을 위한 hidden input -->
 <input type="hidden" id="websocket-url" value="{{ config['WEBSOCKET_SERVER_URL'] }}">
+
+<style>
+    .content-wrapper {
+        width: 800px;
+        margin: 20px auto;
+        padding: 0;
+    }
+    
+    .card {
+        display: flex;
+        flex-direction: row;
+        width: 800px;
+        background-color: #fff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .poster-container {
+        width: 320px;
+        height: 420px;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+    }
+    
+    .poster-container img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+    
+    .info-container {
+        flex: 1;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 25px;
+        text-align: left;
+    }
+    
+    .details {
+        flex: 1;
+    }
+    
+    .details p {
+        margin-bottom: 15px;
+        line-height: 1.5;
+        text-align: left;
+    }
+    
+    .booking-container {
+        margin-top: 25px;
+    }
+    
+    .submit-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 0;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        width: 100%;
+        font-size: 16px;
+    }
+    
+    .submit-button:hover {
+        background-color: #0056b3;
+    }
+    
+    .sold-out {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+</style>
 {% endblock %}
 
 {% block extra_js %}
@@ -55,6 +138,6 @@ function bookConcert() {
         console.error('Detailed error:', error);
         alert('예약 처리 중 오류가 발생했습니다.');
     });
- }
+}
 </script>
 {% endblock %}
